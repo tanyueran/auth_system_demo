@@ -50,11 +50,17 @@ export default [
         exact: true,
         component: lazy(() => import('../pages/home/system_manager/role_manager/index.js')),
       },
-      // 权限管理
+      // 菜单管理
       {
-        path: '/home/system_manager/auth_manager',
+        path: '/home/system_manager/menu_manager',
         exact: true,
-        component: lazy(() => import('../pages/home/system_manager/auth_manager/index.js')),
+        component: lazy(() => import('../pages/home/system_manager/menu_manager/index.js')),
+      },
+      // 按钮管理
+      {
+        path: '/home/system_manager/btn_manager',
+        exact: true,
+        component: lazy(() => import('../pages/home/system_manager/btn_manager/index.js')),
       },
       {
         path: '/home/404',

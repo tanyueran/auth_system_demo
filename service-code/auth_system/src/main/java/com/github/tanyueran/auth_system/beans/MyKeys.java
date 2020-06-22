@@ -8,8 +8,8 @@ import java.security.PublicKey;
 
 // 公钥私钥
 public class MyKeys {
-    private static String PUBLIC_KEY_PATH = "E:\\workspace\\idea\\key\\public.key";
-    private static String PRIVATE_KEY_PATH = "E:\\workspace\\idea\\key\\private.key";
+    private static String PUBLIC_KEY_PATH = "F:\\GitHub-Project\\auth_system_demo\\service-code\\auth_system\\doc\\key\\public.key";
+    private static String PRIVATE_KEY_PATH = "F:\\GitHub-Project\\auth_system_demo\\service-code\\auth_system\\doc\\key\\private.key";
 
     @Bean("publicKey")
     public PublicKey getPublicKey() throws Exception {

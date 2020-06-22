@@ -1,7 +1,7 @@
 /**
  * @author tanxin
  * @date $
- * @Description: 角色管理页面
+ * @Description: 菜单管理页面
  */
 import React from 'react';
 import {

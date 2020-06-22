@@ -33,6 +33,8 @@ import MNav from '../../components/MNav.js';
 import './index.scss';
 import {pullUserInfo} from "../../store/user/action";
 
+import logo from '../../images/logo.jpg';
+
 
 class IndexPage extends React.Component {
 
@@ -82,7 +84,7 @@ class IndexPage extends React.Component {
           <div className="logo" style={{cursor: 'pointer'}} onClick={() => {
             this.props.history.push('/')
           }}>
-            <HomeOutlined style={{marginRight: '5px', fontSize: '18px'}}/>
+            <img width={40} src={logo}/>
             {
               this.state.collapsed ? "" : "用户管理系统"
             }
@@ -114,7 +116,7 @@ class IndexPage extends React.Component {
                   </Menu>
                 }>
                   <a style={{fontSize: "16px",}}>
-                    {this.props.user.userInfo.data.username}
+                    {this.props.user.userInfo.data.userName}
                     <CaretDownOutlined style={{marginLeft: "5px"}}/>
                   </a>
                 </Dropdown>

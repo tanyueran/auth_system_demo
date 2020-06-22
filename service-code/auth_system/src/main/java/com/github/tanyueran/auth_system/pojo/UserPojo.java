@@ -15,17 +15,4 @@ public class UserPojo extends User {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "UserPojo{" +
-                "id=" + super.getId() + '\'' +
-                ", username='" + super.getUsername() + '\'' +
-                ", file_id='" + super.getFile_id() + '\'' +
-                ", password='" + super.getPassword() + '\'' +
-                ", userCode='" + super.getUserCode() + '\'' +
-                ", sex=" + super.getSex() + '\'' +
-                ", desc='" + super.getDesc() + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
 }

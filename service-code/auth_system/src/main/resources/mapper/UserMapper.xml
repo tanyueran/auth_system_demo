@@ -6,29 +6,40 @@
     <!--查询用户信息-->
     <resultMap id="userMap" type="UserPojo">
         <id column="id" property="id"/>
-        <result column="username" property="username"/>
-        <result column="userCode" property="userCode"/>
-        <result column="file_id" property="file_id"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_code" property="userCode"/>
+        <result column="file_id" property="fileId"/>
         <result column="password" property="password"/>
         <result column="sex" property="sex"/>
         <result column="desc" property="desc"/>
-        <collection property="roles" column="id" ofType="com.github.tanyueran.auth_system.pojo.RolePojo" select="getRoleByUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="roles" column="id" ofType="RolePojo" select="getRoleByUserId"/>
     </resultMap>
 
     <!--查询角色-->
     <resultMap id="roleMap" type="RolePojo">
         <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="code" property="code"/>
-        <collection property="auths" column="id" ofType="Auth" select="getAuthByRoleId">
-            <result column="id" property="id"/>
-            <result column="pid" property="pid"/>
-            <result column="name" property="name"/>
-            <result column="code" property="code"/>
-            <result column="type" property="type"/>
-            <result column="remark" property="remark"/>
-            <result column="data" property="data"/>
-        </collection>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="menus" column="id" ofType="MenuPojo" select="getMenuByRoleId"/>
+    </resultMap>
+
+    <!--查询菜单-->
+    <resultMap id="menuMap" type="MenuPojo">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="remark" property="remark"/>
+        <result column="data" property="data"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="buttons" column="id" ofType="Button" select="getButtonByMenuId"/>
     </resultMap>
 
     <!--查询用户信息-->
@@ -36,32 +47,43 @@
         SELECT
             *
         FROM
-            `t_user`
+            `user_table`
         WHERE
-            userCode = #{userCode}
+            user_code = #{userCode}
     </select>
 
 
-    <!--查询角色-->
-    <select id="getRoleByUserId" resultMap="roleMap" parameterType="Integer">
+    <!--查询用户的角色-->
+    <select id="getRoleByUserId" resultMap="roleMap" parameterType="String">
       SELECT
             *
         FROM
-            `t_role_user` ru
-            LEFT JOIN t_role r ON ru.role_id = r.id
+            `user_role_table` ur
+            LEFT JOIN `role_table` r ON ur.role_id = r.id
         WHERE
-            ru.user_id = #{userId}
+            ur.user_id = #{userId}
     </select>
 
-    <!--查询用户的资源权限-->
-    <select id="getAuthByRoleId" resultType="Auth" parameterType="Integer">
+    <!--查询角色的菜单权限-->
+    <select id="getMenuByRoleId" resultMap="menuMap" parameterType="String">
         SELECT
             *
         FROM
-            `t_auth_role` ar
-            LEFT JOIN `t_auth` a ON ar.role_id = a.id
+            `role_menu_table` rm
+            LEFT JOIN `menu_table` a ON rm.menu_id = a.id
         WHERE
-            ar.role_id = #{roleId}
+            rm.role_id = #{roleId}
+    </select>
+
+    <!--查询菜单的按钮权限-->
+    <select id="getButtonByMenuId" resultType="Button" parameterType="String">
+        SELECT
+            *
+        FROM
+            `menu_button_table` mb
+            LEFT JOIN `button_table` b ON mb.button_id = b.id
+        WHERE
+            mb.menu_id = #{menuId}
     </select>
 
     <!--新增用户-->

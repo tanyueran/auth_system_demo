@@ -28,7 +28,7 @@ import {
   deleteAuth,
 } from '../../../../api/auth_manager.js'
 
-class UserManagerPage extends React.Component {
+class MenuManagerPage extends React.Component {
 
   columns = [
     {
@@ -170,4 +170,4 @@ class UserManagerPage extends React.Component {
   }
 }
 
-export default UserManagerPage;
+export default MenuManagerPage;

@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--开启驼峰-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <!--添加别名-->
     <typeAliases>
         <package name="com.github.tanyueran.auth_system.entity"/>
@@ -13,6 +18,5 @@
     <!--添加mapper的配置-->
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
-        <mapper resource="mapper/AuthMapper.xml"/>
     </mappers>
 </configuration>

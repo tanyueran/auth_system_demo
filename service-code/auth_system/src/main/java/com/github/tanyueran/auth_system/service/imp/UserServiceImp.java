@@ -1,8 +1,10 @@
 package com.github.tanyueran.auth_system.service.imp;
 
-import com.github.tanyueran.auth_system.entity.Auth;
+import com.github.tanyueran.auth_system.entity.Button;
+import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.entity.User;
 import com.github.tanyueran.auth_system.mapper.UserMapper;
+import com.github.tanyueran.auth_system.pojo.MenuPojo;
 import com.github.tanyueran.auth_system.pojo.RolePojo;
 import com.github.tanyueran.auth_system.pojo.UserPojo;
 import com.github.tanyueran.auth_system.service.UserService;
@@ -26,7 +28,6 @@ public class UserServiceImp implements UserService {
     public UserDetails loadUserByUsername(String userCode) throws UsernameNotFoundException {
         try {
             UserPojo user = getUserByUserCode(userCode);
-            System.out.println(user);
             if (user == null) {
                 return null;
             }
@@ -34,11 +35,17 @@ public class UserServiceImp implements UserService {
             List<RolePojo> roles = user.getRoles();
             if (roles != null) {
                 for (RolePojo role : roles) {
-                    list.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
-                    List<Auth> auths = role.getAuths();
-                    if (auths != null) {
-                        for (Auth auth : auths) {
-                            list.add(new SimpleGrantedAuthority(auth.getCode()));
+                    list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
+                    // 权限全部添加按钮权限，（菜单code:按钮code）
+                    List<MenuPojo> menus = role.getMenus();
+                    if (menus != null) {
+                        for (MenuPojo menu : menus) {
+                            List<Button> buttons = menu.getButtons();
+                            if (buttons != null) {
+                                for (Button button : buttons) {
+                                    list.add(new SimpleGrantedAuthority(menu.getMenuCode() + ":" + button.getButtonCode()));
+                                }
+                            }
                         }
                     }
                 }

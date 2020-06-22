@@ -6,7 +6,14 @@
 import React from 'react';
 import {withRouter} from 'react-router'
 import {Menu} from "antd";
-import {TeamOutlined, HomeOutlined, AppstoreOutlined, UnlockOutlined, ClusterOutlined} from '@ant-design/icons'
+import {
+  TeamOutlined,
+  HomeOutlined,
+  AppstoreOutlined,
+  MenuOutlined,
+  UnlockOutlined,
+  ClusterOutlined
+} from '@ant-design/icons'
 
 
 class MNav extends React.Component {
@@ -35,9 +42,13 @@ class MNav extends React.Component {
           <ClusterOutlined/>
           <span>角色管理</span>
         </Menu.Item>
-        <Menu.Item key="/home/system_manager/auth_manager">
+        <Menu.Item key="/home/system_manager/menu_manager">
+          <MenuOutlined/>
+          <span>菜单管理</span>
+        </Menu.Item>
+        <Menu.Item key="/home/system_manager/btn_manager">
           <UnlockOutlined/>
-          <span>权限管理</span>
+          <span>按钮管理</span>
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

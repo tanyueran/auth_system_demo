@@ -56,7 +56,7 @@ class LoginPage extends React.Component {
           <img src={logo} alt="logo"/>
         </Typography.Title>
         <Form ref={this.state.form} onFinish={this.loginHandler}>
-          <Form.Item name={"username"} initialValue={"admin"} rules={[{required: true, message: '请输入登录账号!'}]}>
+          <Form.Item name={"username"} initialValue={"manager"} rules={[{required: true, message: '请输入登录账号!'}]}>
             <Input
               autoComplete={"off"}
               prefix={<UserOutlined style={{color: 'rgba(0,0,0,.25)'}}/>}
