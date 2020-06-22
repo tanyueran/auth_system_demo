@@ -1,5 +1,7 @@
 package com.github.tanyueran.auth_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,7 +14,9 @@ public class User implements Serializable {
     private String userCode;// 账号
     private Integer sex;// 性别
     private String desc;// 描述
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;// 创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;// 更新时间
 
     public User() {

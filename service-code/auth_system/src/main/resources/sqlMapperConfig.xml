@@ -18,5 +18,6 @@
     <!--添加mapper的配置-->
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/ButtonMapper.xml"/>
     </mappers>
 </configuration>

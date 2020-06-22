@@ -1,5 +1,7 @@
 package com.github.tanyueran.auth_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,7 +14,9 @@ public class Menu implements Serializable {
     private String menuType;//菜单类型（0、一级菜单，1、二级菜单）
     private String remark;
     private String Data;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     public Menu() {

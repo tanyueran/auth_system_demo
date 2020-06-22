@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.tanyueran.auth_system.mapper.ButtonMapper">
+    <!-- 查询所有的按钮 -->
+    <select id="getAllBtn" resultType="Button">
+        SELECT
+            * 
+        FROM
+            `button_table`
+        ORDER BY
+            update_time DESC
+    </select>
+
+    <!--删除按钮-->
+    <delete id="delButtonById">
+        DELETE FROM `button_table` WHERE  id = #{id}
+    </delete>
+
+    <!--是否可以删除-->
+    <select id="canDelById" resultType="Integer">
+        SELECT COUNT(*) FROM `menu_button_table` WHERE button_id = #{id}
+    </select>
+
+    <!--插入按钮-->
+    <insert id="addButton" parameterType="Button">
+      INSERT INTO `button_table` ( id, button_name, button_code, remark )
+        VALUES
+            (#{id},#{buttonName},#{buttonCode},#{remark})
+    </insert>
+
+    <!--更新按钮-->
+    <update id="updateButtonById" parameterType="Button">
+        UPDATE `button_table`
+        SET button_name = #{buttonName},button_code=#{buttonCode},remark=#{remark}
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>

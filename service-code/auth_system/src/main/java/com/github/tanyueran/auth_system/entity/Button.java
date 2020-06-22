@@ -1,5 +1,7 @@
 package com.github.tanyueran.auth_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,18 +11,20 @@ public class Button implements Serializable {
     private String buttonName;
     private String buttonCode;
     private String remark;
-    private Date crateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     public Button() {
     }
 
-    public Button(String id, String buttonName, String buttonCode, String remark, Date crateTime, Date updateTime) {
+    public Button(String id, String buttonName, String buttonCode, String remark, Date createTime, Date updateTime) {
         this.id = id;
         this.buttonName = buttonName;
         this.buttonCode = buttonCode;
         this.remark = remark;
-        this.crateTime = crateTime;
+        this.createTime = createTime;
         this.updateTime = updateTime;
     }
 
@@ -31,7 +35,7 @@ public class Button implements Serializable {
                 ", buttonName='" + buttonName + '\'' +
                 ", buttonCode='" + buttonCode + '\'' +
                 ", remark='" + remark + '\'' +
-                ", crateTime=" + crateTime +
+                ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
     }
@@ -68,12 +72,12 @@ public class Button implements Serializable {
         this.remark = remark;
     }
 
-    public Date getCrateTime() {
-        return crateTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCrateTime(Date crateTime) {
-        this.crateTime = crateTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
