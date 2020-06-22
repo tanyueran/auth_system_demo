@@ -1,0 +1,23 @@
+.login-wrapper {
+  height: 400px;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #efefef;
+  box-shadow: 0 0 2px 2px #efefef;
+
+  &:before, &:after {
+    content: '';
+    display: table;
+  }
+
+  padding: 4rem;
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+}
+

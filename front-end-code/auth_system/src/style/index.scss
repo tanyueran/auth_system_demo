@@ -1,0 +1,56 @@
+@import '~antd/dist/antd.css';
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 10px;
+}
+
+html, body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-size: 14px;
+}
+
+#root {
+	height: 100%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+
+.clear {
+	&:before {
+		clear: both;
+	}
+}
+
+// 覆盖
+.ant-layout-header {
+	color: #333;
+	background-color: #fff;
+}

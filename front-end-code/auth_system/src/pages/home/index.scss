@@ -1,0 +1,35 @@
+.logo {
+	height: 64px;
+	line-height: 64px;
+	padding-left: 2em;
+}
+
+.app-wrapper {
+	height: 100%;
+}
+
+.app-content-wrapper {
+	height: 100%;
+}
+
+.app-content-wrapper_box {
+	height: 100%;
+	overflow: hidden;
+
+	> div {
+		height: 100%;
+
+		&:before, &:after {
+			content: '';
+			display: table;
+		}
+	}
+}
+
+.ant-layout-header {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.ant-layout-sider-children {
+	border-right: 1px solid #e0e0e0;
+}

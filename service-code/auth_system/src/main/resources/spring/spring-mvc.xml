@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--配置静态资源-->
+    <mvc:resources mapping="/html/*.html" location="/html/**"/>
+
+    <!--扫面controller-->
+    <context:component-scan base-package="com.github.tanyueran.auth_system.web"/>
+
+    <!-- 引入 swagger ui-->
+    <bean class="com.github.tanyueran.auth_system.config.Swagger2Config"/>
+    <!-- swagger静态资源访问配置 -->
+    <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+
+    <!--开启注解-->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="fastJsonHttpMessageConverter"
+                  class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--配置文件-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--上传文件的最大大小，单位为字节 -->
+        <property name="maxUploadSize" value="17367648787"></property>
+
+        <!-- 上传文件的编码 -->
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+
+    <!--开启spring security注解-->
+    <security:global-method-security
+            secured-annotations="enabled"
+            pre-post-annotations="enabled"
+            jsr250-annotations="enabled"/>
+
+</beans>

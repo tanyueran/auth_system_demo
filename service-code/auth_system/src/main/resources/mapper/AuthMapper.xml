@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.tanyueran.auth_system.mapper.AuthMapper">
+    <resultMap id="getOneLevelAuthMap" type="com.github.tanyueran.auth_system.pojo.AuthPojo">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <result column="data" property="data"/>
+        <collection property="children" column="id" ofType="id" select="getTwoLevelAuth"/>
+    </resultMap>
+
+    <resultMap id="getTwoLevelAuthMap" type="com.github.tanyueran.auth_system.pojo.AuthPojo">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <result column="data" property="data"/>
+        <collection property="children" column="id" ofType="id" select="getBtnAuth"/>
+    </resultMap>
+
+
+    <!--查询一级菜单-->
+    <select id="getMenuAuth" resultMap="getOneLevelAuthMap">
+      SELECT * FROM t_auth WHERE pid is null and type = 0
+    </select>
+
+    <!--查询二级菜单-->
+    <select id="getTwoLevelAuth" resultMap="getTwoLevelAuthMap">
+        SELECT * FROM `t_auth` where pid = #{id} and type = 1
+    </select>
+
+    <!--查询按钮权限-->
+    <select id="getBtnAuth" resultType="com.github.tanyueran.auth_system.entity.Auth">
+      SELECT * FROM t_auth WHERE pid  = #{id} and type = 2
+    </select>
+
+    <!--删除资源-->
+    <delete id="deleteAuthById">
+      DELETE FROM `t_auth` WHERE pid = #{id} or id = #{id}
+    </delete>
+</mapper>

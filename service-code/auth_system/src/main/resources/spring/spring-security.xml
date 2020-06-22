@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--引入公钥私钥-->
+    <bean class="com.github.tanyueran.auth_system.beans.MyKeys"/>
+
+    <!-- swagger -->
+    <security:http security="none" pattern="/v2/api-docs"/>
+    <security:http security="none" pattern="/swagger-resources/**"/>
+    <security:http security="none" pattern="/configuration/ui"/>
+    <security:http security="none" pattern="/swagger-ui.html"/>
+    <security:http security="none" pattern="/configuration/security"/>
+    <security:http security="none" pattern="/webjars/**"/>
+    <!--注册-->
+    <security:http security="none" pattern="/user/register"/>
+
+    <!--自定义jwt认证过滤器-->
+    <bean id="myLoginFilter" class="com.github.tanyueran.auth_system.filter.MyLoginFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <!--自定义jwt检测过滤器-->
+    <bean id="myVerifyFilter" class="com.github.tanyueran.auth_system.filter.MyVerifyFilter">
+        <constructor-arg name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <!--添加具体的拦截规则-->
+    <security:http auto-config="true" use-expressions="true">
+        <!--配置拦截的认真 和 可以认证的角色-->
+        <security:intercept-url pattern="/html/login.html" access="permitAll()"/>
+        <!--放开请求csrf-->
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+        <!--退出的地址 -->
+        <security:logout
+                logout-success-url="/html/logout.html"
+                invalidate-session="true"
+                logout-url="/logout"/>
+        <!--关闭csrf-->
+        <security:csrf disabled="true"/>
+
+        <!--
+            表单登录
+        -->
+        <security:form-login
+                login-page="/html/login.html"
+                authentication-failure-url="/html/login.html"
+                default-target-url="/html/index.html"
+                login-processing-url="/login"/>
+        <!--添加jwt认证-->
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="myLoginFilter"/>
+        <!--添加jwt检测-->
+        <security:custom-filter before="BASIC_AUTH_FILTER" ref="myVerifyFilter"/>
+    </security:http>
+
+    <!--引入自定义的加密器-->
+    <bean class="com.github.tanyueran.auth_system.config.MyPasswordEncoder" id="mySpringSecurityConfig"/>
+
+    <!-- 配置认证管理器 -->
+    <security:authentication-manager alias="authenticationManager">
+        <!-- 认证的提供者 -->
+        <security:authentication-provider user-service-ref="userServiceImp">
+            <security:password-encoder ref="mySpringSecurityConfig"/>
+            <!--<user-service>
+                <user name="admin" password="{noop}123456" authorities="ROLE_ADMIN"/>
+                <user name="user" password="{noop}123456" authorities="ROLE_USER"/>
+            </user-service>-->
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>

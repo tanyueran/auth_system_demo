@@ -1,0 +1,21 @@
+.register-wrapper {
+  height: 80%;
+  width: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &:before, &:after {
+    content: '';
+    display: table;
+  }
+
+  padding: 4rem;
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+}
+
