@@ -10,7 +10,7 @@ public interface ButtonService {
 
     Boolean delBtnById(String id);
 
-    Boolean addBtn(Button button);
+    Boolean addBtn(Button button) throws Exception;
 
-    Boolean editBtn(Button button);
+    Boolean editBtn(Button button) throws Exception;
 }

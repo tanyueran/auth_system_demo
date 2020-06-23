@@ -13,7 +13,7 @@ public class Menu implements Serializable {
     private String menuCode;
     private String menuType;//菜单类型（0、一级菜单，1、二级菜单）
     private String remark;
-    private String Data;
+    private String data;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -29,7 +29,7 @@ public class Menu implements Serializable {
         this.menuCode = menuCode;
         this.menuType = menuType;
         this.remark = remark;
-        Data = data;
+        this.data = data;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -43,7 +43,7 @@ public class Menu implements Serializable {
                 ", menuCode='" + menuCode + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", remark='" + remark + '\'' +
-                ", Data='" + Data + '\'' +
+                ", data='" + data + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
@@ -98,11 +98,11 @@ public class Menu implements Serializable {
     }
 
     public String getData() {
-        return Data;
+        return data;
     }
 
     public void setData(String data) {
-        Data = data;
+        this.data = data;
     }
 
     public Date getCreateTime() {

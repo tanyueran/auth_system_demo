@@ -5,10 +5,12 @@ import com.github.tanyueran.auth_system.mapper.ButtonMapper;
 import com.github.tanyueran.auth_system.service.ButtonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(noRollbackFor = RuntimeException.class)
 public class ButtonServiceImp implements ButtonService {
 
     @Autowired
@@ -37,12 +39,27 @@ public class ButtonServiceImp implements ButtonService {
     }
 
     @Override
-    public Boolean addBtn(Button button) {
+    public Boolean addBtn(Button button) throws Exception {
+        Button btn = buttonMapper.queryButtonByCode(button);
+        if (btn != null) {
+            throw new Exception("按钮标识符已被使用，请更换");
+        }
         return buttonMapper.addButton(button) == 1;
     }
 
     @Override
-    public Boolean editBtn(Button button) {
-        return buttonMapper.updateButtonById(button) == 1;
+    public Boolean editBtn(Button button) throws Exception {
+        Button btn = buttonMapper.queryButtonById(button);
+        if (btn == null) {
+            throw new Exception("需要更新的按钮不存在");
+        } else if (btn.getButtonCode().equals(button.getButtonCode())) {
+            return buttonMapper.updateButtonById(button) == 1;
+        } else {
+            Button btn2 = buttonMapper.queryButtonByCode(button);
+            if (btn2 == null) {
+                return buttonMapper.updateButtonById(button) == 1;
+            }
+            throw new Exception("按钮标识符已被使用，请更换");
+        }
     }
 }

@@ -19,5 +19,6 @@
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/ButtonMapper.xml"/>
+        <mapper resource="mapper/MenuMapper.xml"/>
     </mappers>
 </configuration>

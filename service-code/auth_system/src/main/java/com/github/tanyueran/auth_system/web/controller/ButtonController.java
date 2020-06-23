@@ -35,13 +35,13 @@ public class ButtonController {
     }
 
     @PostMapping("/")
-    public Boolean addButton(@RequestBody Button button) {
+    public Boolean addButton(@RequestBody Button button) throws Exception {
         Boolean aBoolean = buttonService.addBtn(button);
         return aBoolean;
     }
 
     @PutMapping("/")
-    public Boolean editButton(@RequestBody Button button) {
+    public Boolean editButton(@RequestBody Button button) throws Exception {
         Boolean aBoolean = buttonService.editBtn(button);
         return aBoolean;
     }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.tanyueran.auth_system.mapper.MenuMapper">
+    <select id="getAllMenu" resultType="Menu">
+      SELECT
+            *
+        FROM
+            `menu_table`
+        ORDER BY
+            create_time DESC
+    </select>
+
+    <!--根据id查询-->
+    <select id="queryMenuById" parameterType="String" resultType="Menu">
+        SELECT * FROM `menu_table` where id = #{id}
+    </select>
+
+    <!--根据id查询菜单的子菜单-->
+    <select id="queryMenuChildrenById" parameterType="String" resultType="Menu">
+        SELECT * FROM `menu_table` where pid = #{id}
+    </select>
+
+    <!--根据id删除菜单-->
+    <delete id="deleteMenuById" parameterType="String">
+        DELETE FROM `menu_table` WHERE id = #{id}
+    </delete>
+
+    <!--检测按钮是否有角色在引用的-->
+    <select id="checkMenuForRoleById" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM `role_menu_table` WHERE menu_id = #{id}
+    </select>
+
+    <!--根据菜单id删除菜单按钮的中间表数据-->
+    <delete id="deleteMenuButtonByMenuId" parameterType="String">
+        DELETE FROM `menu_button_table` WHERE menu_id = #{menuId}
+    </delete>
+
+    <!--添加-->
+    <insert id="addMenu" parameterType="Menu">
+        INSERT INTO `menu_table`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="pid != '' || pid != null">
+                pid,
+            </if>
+            menu_name,
+            menu_code,
+            menu_type,
+            remark,
+            data,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="pid != '' || pid != null">
+                #{pid},
+            </if>
+            #{menuName},
+            #{menuCode},
+            #{menuType},
+            #{remark},
+            #{data},
+        </trim>
+    </insert>
+
+    <!--为菜单添加基本的按钮权限-->
+    <insert id="addBasicButtonForMenuByMenuId" parameterType="String">
+        INSERT INTO `menu_button_table`(id,button_id,menu_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.buttonId},#{item.menuId})
+        </foreach>
+    </insert>
+</mapper>

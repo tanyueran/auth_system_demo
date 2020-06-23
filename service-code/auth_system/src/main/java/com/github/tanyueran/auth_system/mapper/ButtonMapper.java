@@ -22,4 +22,10 @@ public interface ButtonMapper {
 
     // 编辑按钮
     Integer updateButtonById(Button button);
+
+    // 查询button by code
+    Button queryButtonByCode(Button button);
+
+    // 根据id 查询Button
+    Button queryButtonById(Button button);
 }

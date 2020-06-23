@@ -169,6 +169,10 @@ class ButtonManagerPage extends React.Component {
           } else {
             message.error("操作失败");
           }
+        }).catch(() => {
+          this.setState({
+            loading: false,
+          });
         });
       } else {
         o = {
@@ -176,13 +180,18 @@ class ButtonManagerPage extends React.Component {
           id: this.state.idList.shift(),
         };
         addBtn(o).then(data => {
-          this.getKey();
           if (data) {
             message.success("操作成功");
             this.getData();
           } else {
             message.error("操作失败");
           }
+        }).catch(() => {
+          this.setState({
+            loading: false,
+          });
+        }).finally(() => {
+          this.getKey();
         });
       }
     });

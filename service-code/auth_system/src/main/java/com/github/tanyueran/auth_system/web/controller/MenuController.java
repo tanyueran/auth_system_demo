@@ -1,0 +1,42 @@
+package com.github.tanyueran.auth_system.web.controller;
+
+import com.github.tanyueran.auth_system.entity.Menu;
+import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
+import com.github.tanyueran.auth_system.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/menu")
+public class MenuController {
+
+    @Autowired
+    private MenuService menuService;
+
+    @GetMapping("/all")
+    public List<Menu> getAllMenu() {
+        return menuService.getAllMenu();
+    }
+
+    @GetMapping("/levelMenu/all")
+    public List<LevelMenuPojo> getAllLevelMenu() {
+        return menuService.getLevelMenu();
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean delMenuById(@PathVariable("id") String id) throws Exception {
+        return menuService.deleteMenuById(id);
+    }
+
+    @PostMapping("/")
+    public Boolean addMenu(@RequestBody Menu menu) {
+        return menuService.addMenu(menu);
+    }
+
+    @PutMapping("/")
+    public Boolean editMenu(@RequestBody Menu menu) throws Exception {
+        return menuService.editMenu(menu);
+    }
+}

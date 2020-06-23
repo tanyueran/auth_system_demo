@@ -6,7 +6,7 @@
     <!-- 查询所有的按钮 -->
     <select id="getAllBtn" resultType="Button">
         SELECT
-            * 
+            *
         FROM
             `button_table`
         ORDER BY
@@ -37,6 +37,15 @@
         WHERE
             id = #{id}
     </update>
+
+    <!--更具code 查询按钮 -->
+    <select id="queryButtonByCode" parameterType="Button" resultType="Button">
+        SELECT * FROM `button_table` WHERE button_code = #{buttonCode}
+    </select>
+
+    <select id="queryButtonById" parameterType="Button" resultType="Button">
+        SELECT * FROM `button_table` WHERE id = #{id}
+    </select>
 
 
 </mapper>
