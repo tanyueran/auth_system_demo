@@ -4,11 +4,7 @@
  * @Description:
  */
 import React from 'react';
-import {
-  Row,
-  Col,
-  Card,
-} from "antd";
+import {} from "antd";
 import moment from 'moment';
 
 import style from "./index.module.scss";
@@ -24,10 +20,3 @@ class HomePage extends React.Component {
 }
 
 export default HomePage;
-
-/*
-export default function HomePage() {
-  return <div style={{fontSize: '20px'}} className={style['home-content']}>
-    {new moment(new Date()).format('[今天] dddd')}
-  </div>
-}*/

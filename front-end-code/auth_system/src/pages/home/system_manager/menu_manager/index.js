@@ -15,6 +15,7 @@ import {
   Form,
   Modal,
   Input,
+  Checkbox,
 } from "antd";
 
 import {
@@ -22,18 +23,20 @@ import {
   UndoOutlined,
   DeleteOutlined,
   EditOutlined,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 
 import MTableTitle from '../../../../components/MTableTitle.js'
 import style from "./index.module.scss";
 
 import {getPrimaryKey} from "../../../../api/common";
-
+import {queryAllBtn} from '../../../../api/button_manager'
 import {
   queryAllMenu,
   deleteMenu,
   addMenu,
   editMenu,
+  getButtonByMenuId, updateButtonByMenuId,
 } from "../../../../api/menu_manager";
 
 class MenuManagerPage extends React.Component {
@@ -83,7 +86,21 @@ class MenuManagerPage extends React.Component {
       align: 'center',
       render: (text, obj, index) => {
         return <div>
-          <Button size={"small"} icon={<EditOutlined/>}>编辑</Button>
+          <Button onClick={() => {
+            this.setState({
+              modalObj: {
+                show: true,
+                obj: {...obj},
+                isEdit: true,
+                pid: obj.pid,
+                menuType: obj.menuType,
+              }
+            }, () => {
+              if (this.state.formRef.current !== null) {
+                this.state.formRef.current.resetFields();
+              }
+            })
+          }} size={"small"} icon={<EditOutlined/>}>编辑</Button>
           &nbsp;
           <Popconfirm
             title="您确定删除此资源嘛?"
@@ -96,18 +113,24 @@ class MenuManagerPage extends React.Component {
             <Button size={"small"} icon={<DeleteOutlined/>} danger>删除</Button>
           </Popconfirm>
           {
-            obj.menuType === '0' &&
-            <>&nbsp;
-              <Button onClick={() => {
-                this.setState({
-                  modalObj: {
-                    show: true,
-                    isEdit: false,
-                    pid: obj.id,
-                    menuType: '1',
-                  }
-                })
-              }} size={"small"} icon={<PlusOutlined/>} title={"添加子菜单"}>添加</Button></>
+            obj.menuType === '0' ?
+              <>&nbsp;
+                <Button onClick={() => {
+                  this.setState({
+                    modalObj: {
+                      show: true,
+                      isEdit: false,
+                      pid: obj.id,
+                      menuType: '1',
+                    }
+                  })
+                }} size={"small"} type={'primary'} icon={<PlusOutlined/>} title={"添加子菜单"}>添加</Button></> :
+              <>
+                &nbsp;
+                <Button onClick={() => {
+                  this.getThisMenuButton(obj.id);
+                }} size={"small"} icon={<AppstoreAddOutlined/>} title={"按钮权限配置"}>配置</Button>
+              </>
           }
         </div>
       }
@@ -126,6 +149,15 @@ class MenuManagerPage extends React.Component {
       pid: null,
       obj: {}
     },
+    // 所有的按钮信息
+    _btnList: [],
+    btnList: [],
+    // 按钮的模块框
+    buttonModalObj: {
+      show: false,
+      menuId: '',
+      list: [],
+    }
   };
 
   // 获取主键
@@ -175,6 +207,55 @@ class MenuManagerPage extends React.Component {
       this.setState({
         loading: false,
       })
+    })
+  };
+
+  // 请求所有的按钮
+  getAllButtonData = () => {
+    queryAllBtn().then(data => {
+      let list = [];
+      data.forEach(item => {
+        list.push({
+          id: item.id,
+          label: `[${item.buttonCode}] - ${item.buttonName}`,
+          value: item.id,
+        })
+      });
+      this.setState({
+        _btnList: data,
+        btnList: list,
+      })
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // 获取菜单下挂载的按钮
+  getThisMenuButton = (id) => {
+    this.setState(state => {
+      return Object.assign({}, state, {
+        buttonModalObj: {
+          ...state.buttonModalObj,
+          menuId: id,
+          show: true,
+        }
+      });
+    });
+    getButtonByMenuId(id).then(data => {
+      this.setState(state => {
+        let list = [];
+        data.forEach(item => {
+          list.push(item.id);
+        });
+        return Object.assign({}, state, {
+          buttonModalObj: {
+            ...state.buttonModalObj,
+            list,
+          }
+        });
+      })
+    }).catch(err => {
+      console.log()
     })
   };
 
@@ -239,10 +320,47 @@ class MenuManagerPage extends React.Component {
     }, () => {
       this.state.formRef.current.resetFields();
     });
-  }
+  };
+
+  // 关闭按钮模态框
+  closeButtonModal = () => {
+    this.setState(state => {
+      return Object.assign({}, state, {
+        buttonModalObj: {
+          menuId: '',
+          list: [],
+          show: false,
+        }
+      })
+    })
+  };
+
+  // 更新按钮
+  updateButtonHandler = (menuId, buttonIdStr) => {
+    this.setState({
+      loading: true,
+    });
+    updateButtonByMenuId(menuId, buttonIdStr)
+      .then(data => {
+        if (data) {
+          message.success('操作成功');
+        } else {
+          message.error('操作失败');
+        }
+      }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+      this.setState({
+        loading: false,
+      });
+    });
+  };
 
   componentDidMount() {
     this.getData();
+    // 请求按钮信息
+    this.getAllButtonData();
+    // 获取主键
     this.getKey();
   }
 
@@ -253,7 +371,7 @@ class MenuManagerPage extends React.Component {
         <Col span={24}>
           <Row>
             <Col span={12}>
-              <MTableTitle>权限列表</MTableTitle>
+              <MTableTitle>菜单列表</MTableTitle>
             </Col>
             <Col span={12} className="text-right">
               <Button onClick={() => {
@@ -342,6 +460,31 @@ class MenuManagerPage extends React.Component {
           </Form.Item>
 
         </Form>
+      </Modal>
+
+      {/*按钮的模块*/}
+      <Modal
+        title={"按钮权限配置"}
+        visible={this.state.buttonModalObj.show}
+        onOk={() => {
+          this.updateButtonHandler(this.state.buttonModalObj.menuId, this.state.buttonModalObj.list.join(","));
+          this.closeButtonModal();
+          return false;
+        }}
+        onCancel={() => {
+          this.closeButtonModal();
+        }}
+      >
+        <Checkbox.Group onChange={(val) => {
+          this.setState(state => {
+            return Object.assign({}, state, {
+              buttonModalObj: {
+                ...state.buttonModalObj,
+                list: val,
+              }
+            })
+          });
+        }} value={this.state.buttonModalObj.list} options={this.state.btnList}/>
       </Modal>
     </div>
   }

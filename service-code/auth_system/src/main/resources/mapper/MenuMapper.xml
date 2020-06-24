@@ -17,6 +17,12 @@
         SELECT * FROM `menu_table` where id = #{id}
     </select>
 
+    <!--根据菜单code查询-->
+    <select id="queryMenuByCode" parameterType="String" resultType="Menu">
+        SELECT * FROM `menu_table` where menu_code = #{menuCode}
+    </select>
+
+
     <!--根据id查询菜单的子菜单-->
     <select id="queryMenuChildrenById" parameterType="String" resultType="Menu">
         SELECT * FROM `menu_table` where pid = #{id}
@@ -70,6 +76,51 @@
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id},#{item.buttonId},#{item.menuId})
+        </foreach>
+    </insert>
+
+    <!--根据菜单id更新菜单-->
+    <update id="updateMenuById" parameterType="Menu">
+        UPDATE `menu_table`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="menuName != null">
+                menu_name = #{menuName},
+            </if>
+            <if test="menuCode != null">
+                menu_code = #{menuCode},
+            </if>
+            <if test="data != null">
+                `data` = #{data},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!--查询菜单下面挂载的按钮-->
+    <select id="queryButtonByMenuId" parameterType="String" resultType="Button">
+        SELECT
+            b.id,
+            b.button_name,
+            b.button_code,
+            b.remark,
+            b.create_time,
+            b.update_time
+        FROM
+            menu_button_table mb
+            LEFT JOIN button_table b ON mb.button_id = b.id
+        WHERE
+            mb.menu_id = #{menuId}
+    </select>
+
+    <!--给菜单插入对应的权限-->
+    <insert id="addButtonByMenuId">
+        INSERT INTO `menu_button_table`(id,menu_id,button_id)
+        VALUES
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.id},#{item.menuId},#{item.buttonId})
         </foreach>
     </insert>
 </mapper>

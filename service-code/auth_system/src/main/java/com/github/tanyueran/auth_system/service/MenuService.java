@@ -1,5 +1,6 @@
 package com.github.tanyueran.auth_system.service;
 
+import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
 
@@ -15,8 +16,14 @@ public interface MenuService {
     Boolean deleteMenuById(String id) throws Exception;
 
     // 添加菜单
-    Boolean addMenu(Menu menu);
+    Boolean addMenu(Menu menu) throws Exception;
 
     // 编辑菜单
     Boolean editMenu(Menu menu) throws Exception;
+
+    // 获取菜单下面挂载的菜单
+    List<Button> getButtonForMenuId(String menuId);
+
+    // 更新菜单下面挂载的菜单
+    Boolean updateButtonForMenuId(String menuId, List<String> buttonIdList);
 }

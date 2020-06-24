@@ -86,7 +86,7 @@ class IndexPage extends React.Component {
           }}>
             <img width={40} src={logo}/>
             {
-              this.state.collapsed ? "" : "用户管理系统"
+              this.state.collapsed ? "" : "权限管理系统"
             }
           </div>
           <MNav/>
@@ -125,6 +125,7 @@ class IndexPage extends React.Component {
           </Layout.Header>
           <Layout.Content className={"app-content-wrapper_box"}
                           style={{overflow: 'auto', margin: '20px 10px'}}>
+            {/*配置子路由*/}
             {
               this.props.routes.map((item, i) =>
                 <Route exact={item.exact} path={item.path} key={i} render={props =>

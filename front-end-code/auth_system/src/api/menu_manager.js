@@ -10,7 +10,11 @@ const api = {
   // 请求所有的菜单
   queryAllMenu: `/${API}/menu/levelMenu/all`,
   // 删除菜单
-  delMenu: `/${API}/menu/`,
+  delMenu: `/${API}/menu`,
+  // 获取挂载的按钮
+  getButtonByMenuId: `/${API}/menu/btn`,
+  // 更新挂载的按钮
+  updateButtonByMenuId: `/${API}/menu/btn/update`,
 };
 
 
@@ -24,7 +28,7 @@ export async function queryAllMenu() {
 // 删除菜单
 export async function deleteMenu(id) {
   return request({
-    url: `${api.delMenu}${id}`,
+    url: `${api.delMenu}/${id}`,
     method: "delete",
   });
 }
@@ -44,5 +48,20 @@ export async function editMenu(data) {
     url: `${api.delMenu}`,
     method: 'put',
     data,
+  });
+}
+
+// 请求菜单下面挂载的按钮
+export async function getButtonByMenuId(id) {
+  return request({
+    url: `${api.getButtonByMenuId}/${id}`,
+  });
+}
+
+// 更新菜单下面挂载的按钮
+export async function updateButtonByMenuId(menuId, btnIdStr) {
+  return request({
+    url: `${api.updateButtonByMenuId}/${menuId}/${btnIdStr}`,
+    method: 'put',
   });
 }

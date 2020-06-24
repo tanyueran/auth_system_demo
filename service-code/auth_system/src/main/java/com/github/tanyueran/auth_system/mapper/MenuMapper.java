@@ -1,5 +1,6 @@
 package com.github.tanyueran.auth_system.mapper;
 
+import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,6 +26,18 @@ public interface MenuMapper {
     // 删除该菜单下的 菜单-按钮-中间表数据
     Integer deleteMenuButtonByMenuId(String menuId);
 
+    // 根据菜单code查询
+    Menu queryMenuByCode(String menuCode);
+
     // 为菜单添加基本的按钮权限
     Integer addBasicButtonForMenuByMenuId(List<Map<String, String>> list);
+
+    // 根据菜单主键更新
+    Integer updateMenuById(Menu menu);
+
+    // 查询菜单下面挂载的按钮
+    List<Button> queryButtonByMenuId(String id);
+
+    // 给菜单添加按钮
+    Integer addButtonByMenuId(List<Map<String, String>> list);
 }

@@ -2,6 +2,7 @@ package com.github.tanyueran.auth_system.service.imp;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.mapper.MenuMapper;
 import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
@@ -91,12 +92,17 @@ public class MenuServiceImp implements MenuService {
     }
 
     @Override
-    public Boolean addMenu(Menu menu) {
+    public Boolean addMenu(Menu menu) throws Exception {
         Boolean b = false;
+        // 0、查询菜单code 是否可以使用
         // 1、一级菜单
         //      直接添加即可
         // 2、 二级菜单
         //      需要 在 菜单-按钮 的中间表添加增删改查的基本配置
+        Menu menu1 = menuMapper.queryMenuByCode(menu.getMenuCode());
+        if (menu1 != null) {
+            throw new Exception("菜单标识已经被使用了，请更换");
+        }
         if (StringUtils.isEmpty(menu.getPid()) && menu.getMenuType().equals("0")) {// 一级菜单
             Integer i = menuMapper.addMenu(menu);
             if (i > 0) {
@@ -122,13 +128,54 @@ public class MenuServiceImp implements MenuService {
 
     @Override
     public Boolean editMenu(Menu menu) throws Exception {
+        boolean b = false;
         // 注意：只能修改名称、编码、其他、备注（不允许修改类型）
         // 1、先用id查询出原来的东西，
+        Menu oldMenu = menuMapper.queryMenuById(menu.getId());
         // 2、匹对code值是否变化
         //      没变，则直接修改
         //      变了，判断是否这个code，是否可以使用，
-        return null;
+        if (oldMenu.getMenuCode().equals(menu.getMenuCode())) {
+            Integer i = menuMapper.updateMenuById(menu);
+            if (i > 0) {
+                b = true;
+            }
+        } else {
+            Menu menu1 = menuMapper.queryMenuByCode(menu.getMenuCode());
+            if (menu1 != null) {
+                throw new Exception("菜单标识已经被使用了，请更换");
+            } else {
+                Integer j = menuMapper.updateMenuById(menu);
+                if (j > 0) {
+                    b = true;
+                }
+            }
+        }
+        return b;
     }
 
+    @Override
+    public List<Button> getButtonForMenuId(String menuId) {
+        return menuMapper.queryButtonByMenuId(menuId);
+    }
 
+    @Override
+    public Boolean updateButtonForMenuId(String menuId, List<String> buttonIdList) {
+        // 先删除以前存在的按钮
+        Integer i = menuMapper.deleteMenuButtonByMenuId(menuId);
+        // 在插入新的按钮
+        List<Map<String, String>> list = new ArrayList<>();
+        buttonIdList.forEach(item -> {
+            Map<String, String> map = new HashMap();
+            map.put("id", String.valueOf(CommonController.idBuilder.nextId()));
+            map.put("menuId", menuId);
+            map.put("buttonId", item);
+            list.add(map);
+        });
+        Integer j = menuMapper.addButtonByMenuId(list);
+        if (i >= 0 && j > 0) {
+            return true;
+        }
+        return false;
+    }
 }
