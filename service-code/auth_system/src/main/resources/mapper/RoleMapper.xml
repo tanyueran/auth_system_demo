@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.tanyueran.auth_system.mapper.RoleMapper">
+    <select id="queryAllRoles" resultType="Role">
+      SELECT * FROM `role_table` ORDER BY create_time DESC
+    </select>
+
+    <!--根据code查询角色-->
+    <select id="queryRoleByCode" resultType="Role" parameterType="String">
+        SELECT  * FROM `role_table` WHERE role_code = #{roleCode}
+    </select>
+
+    <select id="queryRoleById" resultType="Role" parameterType="String">
+        SELECT  * FROM `role_table` WHERE id = #{roleId}
+    </select>
+
+    <!--新增角色-->
+    <insert id="insertRole" parameterType="Role">
+        INSERT INTO `role_table`(id,role_name,role_code,remark)
+         VALUES (#{id},#{roleName},#{roleCode},#{remark})
+    </insert>
+
+    <!--查询角色是否被 用户表 引用着-->
+    <select id="queryUserRoleByRoleId" parameterType="String" resultType="Integer">
+      SELECT COUNT(*) FROM `user_role_table` WHERE role_id = #{roleId}
+    </select>
+
+    <!--查询角色是否被 菜单表 引用着-->
+    <select id="queryRoleMenuByRoleId" parameterType="String" resultType="Integer">
+      SELECT COUNT(*) FROM `role_menu_table` WHERE role_id = #{roleId}
+    </select>
+
+    <!--删除角色-->
+    <delete id="deleteRoleById" parameterType="String">
+        DELETE FROM `role_table` WHERE id = #{roleId}
+    </delete>
+
+    <!--更新角色-->
+    <update id="updateRole" parameterType="Role">
+        UPDATE `role_table`
+        SET role_name = #{roleName},role_code = #{roleCode},remark=#{remark}
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>

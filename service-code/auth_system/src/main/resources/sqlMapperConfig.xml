@@ -20,5 +20,6 @@
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/ButtonMapper.xml"/>
         <mapper resource="mapper/MenuMapper.xml"/>
+        <mapper resource="mapper/RoleMapper.xml"/>
     </mappers>
 </configuration>
