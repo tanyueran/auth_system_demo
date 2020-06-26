@@ -14,6 +14,7 @@ import {
   Form,
   Input,
   Modal,
+  Checkbox,
 } from "antd";
 
 import {
@@ -26,8 +27,16 @@ import {
 
 import style from './index.module.scss'
 import MTableTitle from '../../../../components/MTableTitle.js'
-import {getAllRoles, addRole, editRole, delRoleById,} from "../../../../api/role_manager";
+import {
+  getAllRoles,
+  addRole,
+  editRole,
+  delRoleById,
+  updateMenuByRoleId,
+  getMenuByRoleid,
+} from "../../../../api/role_manager";
 import {getPrimaryKey} from "../../../../api/common";
+import {getAllMenuNoLevel} from "../../../../api/menu_manager";
 
 class RoleManagerPage extends React.Component {
 
@@ -100,7 +109,7 @@ class RoleManagerPage extends React.Component {
               <>
                 &nbsp;
                 <Button onClick={() => {
-                  this.getThisMenuButton(obj.id);
+                  this.getThisRoleMenu(obj.id);
                 }} size={"small"} icon={<AppstoreAddOutlined/>} title={"按钮权限配置"}>配置</Button>
               </>
           }
@@ -119,6 +128,15 @@ class RoleManagerPage extends React.Component {
       show: false,
       obj: {}
     },
+    // 所有的菜单信息
+    _menuList: [],
+    menuList: [],
+    // 菜单的模块框
+    menuModalObj: {
+      show: false,
+      roleId: '',
+      list: [],
+    }
   };
 
   // 获取所有的角色
@@ -232,9 +250,96 @@ class RoleManagerPage extends React.Component {
     });
   };
 
+  // 关闭菜单模态框
+  closeRoleModal = () => {
+    this.setState(state => {
+      return Object.assign({}, state, {
+        menuModalObj: {
+          roleId: '',
+          list: [],
+          show: false,
+        }
+      })
+    })
+  };
+
+  // 获取这个角色的菜单
+  getThisRoleMenu = (id) => {
+    this.setState(state => {
+      return Object.assign({}, state, {
+        menuModalObj: {
+          ...state.menuModalObj,
+          roleId: id,
+          show: true,
+        }
+      });
+    });
+    getMenuByRoleid(id).then(data => {
+      this.setState(state => {
+        let list = [];
+        data.forEach(item => {
+          list.push(item.id);
+        });
+        return Object.assign({}, state, {
+          menuModalObj: {
+            ...state.menuModalObj,
+            list,
+          }
+        });
+      })
+    }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+
+    })
+  };
+
+  // 更新菜单
+  updateMenuHandler = (menuId, buttonIdStr) => {
+    this.setState({
+      loading: true,
+    });
+    updateMenuByRoleId(menuId, buttonIdStr || "null")
+      .then(data => {
+        if (data) {
+          message.success('操作成功');
+        } else {
+          message.error('操作失败');
+        }
+      }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+      this.setState({
+        loading: false,
+      });
+    });
+  };
+
+  // 查询所有的菜单信息
+  getAllMenu = () => {
+    getAllMenuNoLevel().then(data => {
+      let list = [];
+      data.forEach(item => {
+        if (item.menuType === '0') return;
+        list.push({
+          id: item.id,
+          label: `[${item.menuCode}] - ${item.menuName}`,
+          value: item.id,
+        })
+      });
+      this.setState({
+        _menuList: data,
+        menuList: list,
+      })
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
   // 查询用户
   componentDidMount() {
     this.getData();
+    this.getAllMenu();
     this.getKey();
   }
 
@@ -265,7 +370,11 @@ class RoleManagerPage extends React.Component {
           </Row>
         </Col>
         <Col span={24}>
-          <Table key={"id"} loading={this.state.loading} columns={this.columns} dataSource={this.state.list}/>
+          <Table
+            rowKey={"id"}
+            loading={this.state.loading}
+            columns={this.columns}
+            dataSource={this.state.list}/>
         </Col>
       </Row>
 
@@ -321,6 +430,31 @@ class RoleManagerPage extends React.Component {
           </Form.Item>
 
         </Form>
+      </Modal>
+
+      {/*菜单的模块*/}
+      <Modal
+        title={"菜单权限配置"}
+        visible={this.state.menuModalObj.show}
+        onOk={() => {
+          this.updateMenuHandler(this.state.menuModalObj.roleId, this.state.menuModalObj.list.join(","));
+          this.closeRoleModal();
+          return false;
+        }}
+        onCancel={() => {
+          this.closeRoleModal();
+        }}
+      >
+        <Checkbox.Group onChange={(val) => {
+          this.setState(state => {
+            return Object.assign({}, state, {
+              menuModalObj: {
+                ...state.menuModalObj,
+                list: val,
+              }
+            })
+          });
+        }} value={this.state.menuModalObj.list} options={this.state.menuList}/>
       </Modal>
     </div>
   }

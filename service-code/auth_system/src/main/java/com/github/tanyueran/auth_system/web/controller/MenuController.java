@@ -7,6 +7,7 @@ import com.github.tanyueran.auth_system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,6 +52,9 @@ public class MenuController {
     // 菜单下的挂载的按钮更新
     @PutMapping("/btn/update/{menuId}/{idList}")
     public Boolean updateButtonByMenuId(@PathVariable("menuId") String menuId, @PathVariable("idList") String idList) {
+        if (idList.equals("null")) {
+            return menuService.updateButtonForMenuId(menuId, new ArrayList<String>());
+        }
         List<String> list = Arrays.asList(idList.split(","));
         return menuService.updateButtonForMenuId(menuId, list);
     }

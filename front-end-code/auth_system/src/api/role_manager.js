@@ -13,10 +13,12 @@ const api = {
   addRole: `/${API}/role/`,
   // 删除角色
   delRoleById: `/${API}/role`,
+  // 更新角色的菜单权限
+  updateMenuByRoleId: `/${API}/role/menu`,
 };
 
 
-// 查询所有的菜单权限
+// 查询所有的角色
 export async function getAllRoles() {
   return request({
     url: api.queryAllRole,
@@ -46,5 +48,21 @@ export async function delRoleById(id) {
   return request({
     url: `${api.delRoleById}/${id}`,
     method: 'delete',
+  })
+}
+
+// 更新角色的菜单权限
+export async function updateMenuByRoleId(id, menuIdList) {
+  return request({
+    url: `${api.updateMenuByRoleId}/${id}/${menuIdList}`,
+    method: 'put',
+  })
+}
+
+// 获取角色的菜单
+export async function getMenuByRoleid(id) {
+  return request({
+    url: `${api.updateMenuByRoleId}/${id}`,
+    method: 'get',
   })
 }

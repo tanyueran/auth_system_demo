@@ -103,7 +103,7 @@ class RegisterPage extends React.Component {
               placeholder="请确认密码"
             />
           </Form.Item>
-          <Form.Item hasFeedback name={'username'} rules={[{required: true, message: '请输入昵称!'}]} label={
+          <Form.Item hasFeedback name={'userName'} rules={[{required: true, message: '请输入昵称!'}]} label={
             <span>
               用户姓名
               <Tooltip title="请输入您的姓名或者昵称?">

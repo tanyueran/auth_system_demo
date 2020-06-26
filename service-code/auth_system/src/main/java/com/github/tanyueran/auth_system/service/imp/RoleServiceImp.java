@@ -1,14 +1,21 @@
 package com.github.tanyueran.auth_system.service.imp;
 
+import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.entity.Role;
 import com.github.tanyueran.auth_system.mapper.RoleMapper;
 import com.github.tanyueran.auth_system.service.RoleService;
+import com.github.tanyueran.auth_system.web.controller.CommonController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@Transactional(noRollbackFor = RuntimeException.class)
 public class RoleServiceImp implements RoleService {
 
     @Autowired
@@ -78,5 +85,30 @@ public class RoleServiceImp implements RoleService {
             }
             return true;
         }
+    }
+
+    @Override
+    public List<Menu> getMenuByRoleId(String id) {
+        return roleMapper.queryMenuByRoleId(id);
+    }
+
+    @Override
+    public Boolean updateMenuByRoleId(String roleId, List<String> menuIdList) {
+        // 先删除以前的，
+        // 在添加现有的
+        Integer i = roleMapper.deleteMenuByRoleId(roleId);
+        if (menuIdList.size() == 0) {
+            return i > 0;
+        }
+        List<Map<String, String>> list = new ArrayList<>();
+        menuIdList.forEach(item -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("id", CommonController.idBuilder.nextId() + "");
+            map.put("roleId", roleId);
+            map.put("menuId", item);
+            list.add(map);
+        });
+        Integer j = roleMapper.addMenuByRoleId(list);
+        return i >= 0 && j >= 0;
     }
 }

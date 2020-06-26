@@ -52,6 +52,24 @@
             user_code = #{userCode}
     </select>
 
+    <select id="getUserInfoById" resultType="User">
+        SELECT
+            *
+        FROM
+            `user_table`
+        WHERE
+            id = #{userId}
+    </select>
+
+    <select id="getUserInfoByCode" resultType="User">
+        SELECT
+            *
+        FROM
+            `user_table`
+        WHERE
+            user_code = #{userCode}
+    </select>
+
 
     <!--查询用户的角色-->
     <select id="getRoleByUserId" resultMap="roleMap" parameterType="String">
@@ -88,9 +106,98 @@
 
     <!--新增用户-->
     <insert id="addUser" parameterType="User">
-      INSERT INTO `t_user` ( id, username, `password`, userCode, sex, `desc` )
+      INSERT INTO `user_table` ( id, user_name, `password`, user_code, sex, `desc` )
         VALUES
-            (null, #{username}, #{password}, #{userCode},#{sex},#{desc})
+            (#{id}, #{userName}, #{password}, #{userCode},#{sex},#{desc})
+    </insert>
+
+    <!--根据关键词分页查询用户-->
+    <select id="queryUserDataByPage" parameterType="Page" resultType="User">
+        SELECT
+        *
+        FROM
+        `user_table`
+        <if test="keyword != '' and keyword != null">
+            WHERE
+            user_name LIKE CONCAT('%',#{keyword},'%')
+            OR user_code LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        ORDER BY
+        create_time DESC
+        LIMIT ${size*(current-1)},#{size}
+    </select>
+
+    <!--获取关键字查询的用户总数-->
+    <select id="getUserSizeByKeyword" parameterType="String" resultType="Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        `user_table`
+        <if test="keyword != '' and keyword != null">
+            WHERE
+            user_name LIKE CONCAT('%',#{keyword},'%')
+            OR user_code LIKE CONCAT('%',#{keyword},'%')
+        </if>
+    </select>
+
+    <!--更新用户信息-->
+    <update id="updateUserByUserId" parameterType="User">
+        UPDATE `user_table`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="userCode != null">
+                user_code = #{userCode},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="desc != null">
+                `desc`=#{desc},
+            </if>
+        </trim>
+        WHERE Id = #{id}
+    </update>
+
+    <!--删除用户和角色的中间表-->
+    <delete id="deleteUserRoleByUserId" parameterType="String">
+        DELETE FROM `user_role_table` WHERE user_id = #{userId}
+    </delete>
+
+    <!--根据用户id删除-->
+    <delete id="deleteUserById" parameterType="String">
+        DELETE FROM `user_table` WHERE id = #{userId}
+    </delete>
+
+    <!--获取用户的角色-->
+    <select id="getRolesByUserId" parameterType="String" resultType="Role">
+        SELECT
+            r.id,
+            r.role_code,
+            r.role_name,
+            r.create_time,
+            r.update_time,
+            r.remark
+        FROM
+            `user_role_table` ur
+            LEFT JOIN `role_table` r ON r.id = ur.role_id
+        WHERE
+            user_id =  #{id}
+    </select>
+
+    <!--删除用户的角色-->
+    <delete id="deleteRoleByUserId" parameterType="String">
+      DELETE FROM `user_role_table` WHERE user_id = #{userId}
+    </delete>
+
+    <!--添加用户的角色-->
+    <insert id="addRole" parameterType="List">
+        INSERT INTO `user_role_table`(id,user_id,role_id)
+        VALUES
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.id},#{item.userId},#{item.roleId})
+        </foreach>
     </insert>
 
 </mapper>

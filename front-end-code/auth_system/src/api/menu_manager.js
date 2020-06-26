@@ -7,6 +7,8 @@ import request from '../utils/request.js';
 import {API} from '../constant/index.js';
 
 const api = {
+  // 查询所有的菜单
+  getAllMenuNoLevel: `/${API}/menu/all`,
   // 请求所有的菜单
   queryAllMenu: `/${API}/menu/levelMenu/all`,
   // 删除菜单
@@ -17,6 +19,13 @@ const api = {
   updateButtonByMenuId: `/${API}/menu/btn/update`,
 };
 
+
+// 查询所有的菜单权限
+export async function getAllMenuNoLevel() {
+  return request({
+    url: api.getAllMenuNoLevel,
+  });
+}
 
 // 查询所有的菜单权限
 export async function queryAllMenu() {

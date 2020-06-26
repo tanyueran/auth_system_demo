@@ -1,9 +1,12 @@
 package com.github.tanyueran.auth_system.mapper;
 
+import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface RoleMapper {
@@ -30,4 +33,14 @@ public interface RoleMapper {
 
     // 更新角色
     Integer updateRole(Role role);
+
+    // 查询当前角色下挂载的菜单
+    List<Menu> queryMenuByRoleId(String roleId);
+
+    // 删除角色下的所有菜单
+    Integer deleteMenuByRoleId(String roleId);
+
+    // 添加角色下的菜单
+    Integer addMenuByRoleId(List<Map<String, String>> list);
+
 }

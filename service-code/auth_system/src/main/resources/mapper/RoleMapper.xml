@@ -44,5 +44,37 @@
         WHERE id = #{id}
     </update>
 
+    <!--查询角色下挂载的菜单-->
+    <select id="queryMenuByRoleId" parameterType="String" resultType="Menu">
+        SELECT
+            m.id,
+            m.menu_code,
+            m.menu_name,
+            m.create_time,
+            m.update_time,
+            m.`data`,
+            m.menu_type,
+            m.pid,
+            m.remark
+        FROM
+            `role_menu_table` rm
+            LEFT JOIN `menu_table` m ON rm.menu_id = m.id
+        WHERE
+            role_id =  #{id}
+    </select>
+
+    <!--删除角色下的所有菜单-->
+    <delete id="deleteMenuByRoleId" parameterType="String">
+        DELETE FROM `role_menu_table` WHERE role_id = #{roleId}
+    </delete>
+
+    <!--插入角色下的所有菜单-->
+    <insert id="addMenuByRoleId">
+        INSERT INTO `role_menu_table`(id,menu_id,role_id)
+        VALUES
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.id},#{item.menuId},#{item.roleId})
+        </foreach>
+    </insert>
 
 </mapper>

@@ -340,7 +340,7 @@ class MenuManagerPage extends React.Component {
     this.setState({
       loading: true,
     });
-    updateButtonByMenuId(menuId, buttonIdStr)
+    updateButtonByMenuId(menuId, buttonIdStr || "null")
       .then(data => {
         if (data) {
           message.success('操作成功');

@@ -1,10 +1,13 @@
 package com.github.tanyueran.auth_system.web.controller;
 
+import com.github.tanyueran.auth_system.entity.Role;
 import com.github.tanyueran.auth_system.entity.User;
+import com.github.tanyueran.auth_system.pojo.Page;
 import com.github.tanyueran.auth_system.pojo.UserPojo;
 import com.github.tanyueran.auth_system.service.UserService;
 import com.github.tanyueran.auth_system.utils.JwtUtil;
 import com.github.tanyueran.auth_system.web.vo.MyResponseBody;
+import com.github.tanyueran.auth_system.web.vo.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,7 +37,7 @@ public class UserController {
     // 注册
     @PostMapping("/register")
     @ApiOperation(value = "注册")
-    public MyResponseBody register(@RequestBody User user) {
+    public MyResponseBody register(@RequestBody User user) throws Exception {
         if (StringUtils.isEmpty(user.getUserCode())
                 || StringUtils.isEmpty(user.getPassword())) {
             return MyResponseBody.error(false, "账号不可为空");
@@ -53,12 +59,52 @@ public class UserController {
         return user;
     }
 
+    // 根据关键词分页查询用户
+    @PostMapping("/page")
+    public PageResult getUserDataByPage(@RequestBody Page page) {
+        PageResult result = new PageResult();
+        List<User> list = userService.getUserDataByPage(page);
+        list.forEach(item -> item.setPassword(null));
+        result.setData(list);
+        result.setCurrent(page.getCurrent());
+        result.setSize(page.getSize());
+        int total = userService.getUserSizeByKeyword(page.getKeyword());
+        result.setTotal(total);
+        result.setTotalPage((int) Math.ceil((double) total / (double) page.getSize()));
+        return result;
+    }
 
-    @GetMapping("/get/{userCode}")
-    @Secured({"ROLE_SMANAGER", "ROLE_MANAGER"})
-    public User getUserInfo(@PathVariable("userCode") String userCode) {
-        User user = userService.getUserByUserCode(userCode);
-        user.setPassword(null);
-        return user;
+    // 新增用户
+    @PostMapping("/add")
+    public Boolean addUser(@RequestBody User user) throws Exception {
+        user.setPassword("123456");
+        return userService.addUser(user);
+    }
+
+    // 编辑用户
+    @PutMapping("/edit")
+    public Boolean editUserByUserId(@RequestBody User user) throws Exception {
+        return userService.editUserByUserId(user);
+    }
+
+    // 删除用户
+    @DeleteMapping("/delete/{id}")
+    public Boolean deleteUserById(@PathVariable("id") String id) {
+        return userService.deleteUserById(id);
+    }
+
+    // 获取用户的角色
+    @GetMapping("/role/{id}")
+    public List<Role> getRoleByUserId(@PathVariable("id") String id) {
+        return userService.getRolesByUserId(id);
+    }
+
+    // 编辑用户的角色
+    @PutMapping("/role/{id}/{roleIdList}")
+    public Boolean updateRoleByUserId(@PathVariable("id") String userId, @PathVariable("roleIdList") String roleIdList) {
+        if (roleIdList.equals("null")) {
+            return userService.updateRole(userId, new ArrayList<>());
+        }
+        return userService.updateRole(userId, Arrays.asList(roleIdList.split(",")));
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 
 @Service
-@Transactional
+@Transactional(noRollbackFor = RuntimeException.class)
 public class MenuServiceImp implements MenuService {
 
     @Autowired
@@ -163,6 +163,9 @@ public class MenuServiceImp implements MenuService {
     public Boolean updateButtonForMenuId(String menuId, List<String> buttonIdList) {
         // 先删除以前存在的按钮
         Integer i = menuMapper.deleteMenuButtonByMenuId(menuId);
+        if (buttonIdList.size() == 0) {
+            return i > 0;
+        }
         // 在插入新的按钮
         List<Map<String, String>> list = new ArrayList<>();
         buttonIdList.forEach(item -> {
@@ -173,9 +176,6 @@ public class MenuServiceImp implements MenuService {
             list.add(map);
         });
         Integer j = menuMapper.addButtonByMenuId(list);
-        if (i >= 0 && j > 0) {
-            return true;
-        }
-        return false;
+        return i >= 0 && j >= 0;
     }
 }
