@@ -31,7 +31,9 @@ import style from "./index.module.scss";
 import {queryUserByPage} from "../../../../api/user_manager.js";
 import {addUser, editUser, deleteUserById, updateRoleByUserId, getRoleByUserId} from "../../../../api/user_manager";
 import {getPrimaryKey} from "../../../../api/common";
-import {getAllRoles, getMenuByRoleid} from "../../../../api/role_manager";
+import {
+  getAllRoles,
+} from "../../../../api/role_manager";
 
 class UserManagerPage extends React.Component {
 

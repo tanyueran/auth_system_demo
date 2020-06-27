@@ -45,7 +45,7 @@
     <!--查询用户信息-->
     <select id="getUserInfoByUserCode" resultMap="userMap">
         SELECT
-            *
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
         FROM
             `user_table`
         WHERE
@@ -54,7 +54,7 @@
 
     <select id="getUserInfoById" resultType="User">
         SELECT
-            *
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
         FROM
             `user_table`
         WHERE
@@ -63,7 +63,7 @@
 
     <select id="getUserInfoByCode" resultType="User">
         SELECT
-            *
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
         FROM
             `user_table`
         WHERE
@@ -74,7 +74,7 @@
     <!--查询用户的角色-->
     <select id="getRoleByUserId" resultMap="roleMap" parameterType="String">
       SELECT
-            *
+            r.id,r.role_name,r.role_code,r.remark,r.create_time,r.update_time
         FROM
             `user_role_table` ur
             LEFT JOIN `role_table` r ON ur.role_id = r.id
@@ -85,7 +85,7 @@
     <!--查询角色的菜单权限-->
     <select id="getMenuByRoleId" resultMap="menuMap" parameterType="String">
         SELECT
-            *
+            a.id,a.pid,a.menu_name,a.menu_code,a.menu_type,a.remark,a.data,a.create_time,a.update_time
         FROM
             `role_menu_table` rm
             LEFT JOIN `menu_table` a ON rm.menu_id = a.id
@@ -96,7 +96,7 @@
     <!--查询菜单的按钮权限-->
     <select id="getButtonByMenuId" resultType="Button" parameterType="String">
         SELECT
-            *
+            b.id,b.button_name,b.button_code,b.remark,b.create_time,b.update_time
         FROM
             `menu_button_table` mb
             LEFT JOIN `button_table` b ON mb.button_id = b.id

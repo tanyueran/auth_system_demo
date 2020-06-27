@@ -120,7 +120,7 @@ class RegisterPage extends React.Component {
             {validator: (_, value) => value ? Promise.resolve() : Promise.reject('请阅读')},
           ]} wrapperCol={{span: 12, offset: 6}}>
             <Checkbox>
-              阅读并接受<a onClick={
+              阅读并接受<a href="/#" onClick={
               (e) => {
                 e.preventDefault();
                 Modal.info({
@@ -138,7 +138,7 @@ class RegisterPage extends React.Component {
               注册
             </Button>
             <br/>
-            已有帐号<a href="#" onClick={(e) => {
+            已有帐号<a href="/#" onClick={(e) => {
             e.preventDefault();
             this.props.history.push("login")
           }}>登录!</a>

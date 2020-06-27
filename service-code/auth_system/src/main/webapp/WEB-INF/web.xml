@@ -39,6 +39,11 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring/spring-context-*.xml</param-value>
     </context-param>
+    <!--配置启动参数-->
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
 
     <!--上下文监听器-->
     <listener>

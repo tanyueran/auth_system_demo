@@ -73,7 +73,7 @@ class LoginPage extends React.Component {
           <Form.Item>
             <div style={{marginBottom: '8px'}}>
               <Checkbox name={'remember'}>记住我</Checkbox>
-              <a href="#" className={"right"} onClick={(e) => {
+              <a href="/#" className={"right"} onClick={(e) => {
                 e.preventDefault();
                 message.info('请联系管理员')
               }}>
@@ -85,7 +85,7 @@ class LoginPage extends React.Component {
             </Button>
             <br/>
             <div style={{marginBottom: '8px'}}>
-              或 <a href="#" onClick={(e) => {
+              或 <a href="/#" onClick={(e) => {
               e.preventDefault();
               this.props.history.push("/register")
             }}>注册!</a>

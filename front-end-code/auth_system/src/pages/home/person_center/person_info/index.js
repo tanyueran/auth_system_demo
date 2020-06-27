@@ -5,18 +5,12 @@
  */
 import React from 'react';
 import {
-  Table,
-  Row,
-  Col,
-  Button,
 } from "antd";
 
 import {
-  PlusOutlined,
-  UndoOutlined,
 } from "@ant-design/icons";
 
-import style from './index.module.scss'
+// import style from './index.module.scss'
 
 class PersonInfoPage extends React.Component {
 

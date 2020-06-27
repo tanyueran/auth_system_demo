@@ -22,7 +22,6 @@ import {
 import {
   UserOutlined,
   CaretDownOutlined,
-  HomeOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   QuestionCircleOutlined,
@@ -84,7 +83,7 @@ class IndexPage extends React.Component {
           <div className="logo" style={{cursor: 'pointer'}} onClick={() => {
             this.props.history.push('/')
           }}>
-            <img width={40} src={logo}/>
+            <img alt={"logo"} width={40} src={logo}/>
             {
               this.state.collapsed ? "" : "权限管理系统"
             }
@@ -115,7 +114,9 @@ class IndexPage extends React.Component {
                     <Menu.Item onClick={this.logoutHandler}>退出</Menu.Item>
                   </Menu>
                 }>
-                  <a style={{fontSize: "16px",}}>
+                  <a href={"/#"} onClick={(e) => {
+                    e.preventDefault();
+                  }} style={{fontSize: "16px",}}>
                     {this.props.user.userInfo.data.userName}
                     <CaretDownOutlined style={{marginLeft: "5px"}}/>
                   </a>

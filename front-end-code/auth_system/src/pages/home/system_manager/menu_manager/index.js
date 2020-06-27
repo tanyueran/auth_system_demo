@@ -36,7 +36,8 @@ import {
   deleteMenu,
   addMenu,
   editMenu,
-  getButtonByMenuId, updateButtonByMenuId,
+  getButtonByMenuId,
+  updateButtonByMenuId,
 } from "../../../../api/menu_manager";
 
 class MenuManagerPage extends React.Component {
@@ -58,9 +59,9 @@ class MenuManagerPage extends React.Component {
       dataIndex: 'menuType',
       key: 'menuType',
       render: (text, record, index) => {
-        if (record.menuType == '0') {
+        if (record.menuType === '0') {
           return <Tag color="blue">一级菜单</Tag>;
-        } else if (record.menuType == '1') {
+        } else if (record.menuType === '1') {
           return <Tag color="magenta">二级菜单</Tag>;
         }
       }
