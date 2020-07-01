@@ -226,6 +226,10 @@ class ButtonManagerPage extends React.Component {
     this.getKey();
   }
 
+  componentWillUnmount() {
+    this.setState = () => false;
+  }
+
 
   render() {
     return <div>

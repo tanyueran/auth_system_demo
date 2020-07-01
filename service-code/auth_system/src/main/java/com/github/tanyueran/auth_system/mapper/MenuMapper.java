@@ -40,4 +40,7 @@ public interface MenuMapper {
 
     // 给菜单添加按钮
     Integer addButtonByMenuId(List<Map<String, String>> list);
+
+    // 查询角色下面的所有菜单那
+    List<Menu> getAllMenuByRoleIds(@Param("roleIds") List<String> roleIds);
 }

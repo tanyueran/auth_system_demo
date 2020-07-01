@@ -12,7 +12,11 @@ const api = {
   // 请求所有的菜单
   queryAllMenu: `/${API}/menu/levelMenu/all`,
   // 删除菜单
-  delMenu: `/${API}/menu`,
+  delMenu: `/${API}/menu/delete`,
+  // 添加
+  addMenu: `/${API}/menu/add`,
+  // 编辑
+  editMenu: `/${API}/menu/edit`,
   // 获取挂载的按钮
   getButtonByMenuId: `/${API}/menu/btn`,
   // 更新挂载的按钮
@@ -45,7 +49,7 @@ export async function deleteMenu(id) {
 // 添加菜单
 export async function addMenu(data) {
   return request({
-    url: `${api.delMenu}`,
+    url: `${api.addMenu}`,
     method: 'post',
     data,
   });
@@ -54,7 +58,7 @@ export async function addMenu(data) {
 // 添加菜单
 export async function editMenu(data) {
   return request({
-    url: `${api.delMenu}`,
+    url: `${api.editMenu}`,
     method: 'put',
     data,
   });

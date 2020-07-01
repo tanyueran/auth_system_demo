@@ -21,7 +21,7 @@ export default [
     component: MLoading(() => import('../pages/register/index.js')),
   },
   {
-    component: MLoading(() => import('../pages/home/index.js')),
+    component: MLoading(() => import('../layout/index.js')),
     children: [
       // 首页
       {
@@ -66,6 +66,10 @@ export default [
       {
         path: '/home/404',
         component: MLoading(notFoundPageUrl),
+      },
+      {
+        path: '/home/401',
+        component: MLoading(() => import('../pages/noAuth/index.js')),
       },
     ]
   },

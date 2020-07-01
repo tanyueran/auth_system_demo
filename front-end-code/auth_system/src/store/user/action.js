@@ -8,10 +8,12 @@ import {
   SET_USER,
   DEl_USER,
   SET_LOGIN_STATUS,
+  SET_MENU, SET_BUTTON,
 } from "./reducer";
 
 // 请求的api
 import {login, getUserInfo} from "../../api/user.js";
+import {getMenu} from "../../api/user";
 
 export function set_user(value) {
   return {
@@ -40,6 +42,20 @@ export function set_loading_status(val) {
   }
 }
 
+export function set_menu(val) {
+  return {
+    type: SET_MENU,
+    value: val,
+  }
+}
+
+export function set_button(val) {
+  return {
+    type: SET_BUTTON,
+    value: val,
+  }
+}
+
 // 用户登录
 export function userLogin(data, func, errFunc) {
   return dispatch => {
@@ -64,6 +80,26 @@ export function pullUserInfo() {
   return dispatch => {
     getUserInfo().then(data => {
       dispatch(set_user(data));
+      let list = [];
+      data.roles.forEach(item => {
+        list.push(item.id);
+      });
+      // 请求菜单
+      getMenu(list).then(result => {
+        dispatch(set_menu(result));
+        // 初始化按钮
+        let o = {};
+        result.forEach(item => {
+          if (Array.isArray(item.children)) {
+            item.children.forEach(item2 => {
+              o[item2.data] = true;
+            });
+          }
+        });
+        dispatch(set_button(o));
+      }).catch(err => {
+        console.log(err);
+      })
     }).catch(err => {
       console.log(err);
     })

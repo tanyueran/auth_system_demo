@@ -6,6 +6,7 @@ import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.mapper.MenuMapper;
 import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
+import com.github.tanyueran.auth_system.pojo.MenuPojo;
 import com.github.tanyueran.auth_system.service.MenuService;
 import com.github.tanyueran.auth_system.web.controller.CommonController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,5 +178,44 @@ public class MenuServiceImp implements MenuService {
         });
         Integer j = menuMapper.addButtonByMenuId(list);
         return i >= 0 && j >= 0;
+    }
+
+    @Override
+    public List<LevelMenuPojo> getMenuByRoleIds(List<String> roleIds) throws Exception {
+        List<LevelMenuPojo> list = new ArrayList<>();
+        // 获取所有的菜单信息
+        List<Menu> allMenu = menuMapper.getAllMenu();
+        Map<String, Menu> map = new HashMap<>();
+        allMenu.forEach(item -> {
+            if (item.getMenuType().equals("0")) {
+                map.put(item.getId(), item);
+            }
+        });
+        // 在获取当前账户下的所有的菜单，
+        List<Menu> allMenuByRoleIds = menuMapper.getAllMenuByRoleIds(roleIds);
+        allMenuByRoleIds.forEach(item -> {
+            // 判断list中是否放了
+            boolean b = false;
+            if (!list.isEmpty()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getId().equals(item.getPid())) {
+                        list.get(i).getChildren().add(item);
+                        b = true;
+                        break;
+                    }
+                }
+            }
+            if (!b) {
+                Menu menu = map.get(item.getPid());
+                LevelMenuPojo m = JSON.parseObject(JSON.toJSONString(menu), LevelMenuPojo.class);
+                if (m.getChildren() == null) {
+                    m.setChildren(new ArrayList<Menu>());
+                }
+                m.getChildren().add(item);
+                list.add(m);
+            }
+        });
+        // 按照层级拼接
+        return list;
     }
 }

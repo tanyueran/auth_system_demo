@@ -26,4 +26,7 @@ public interface MenuService {
 
     // 更新菜单下面挂载的菜单
     Boolean updateButtonForMenuId(String menuId, List<String> buttonIdList);
+
+    // 获取角色下面的所有菜单列表
+    List<LevelMenuPojo> getMenuByRoleIds(List<String> roleIds) throws Exception;
 }

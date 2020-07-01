@@ -7,15 +7,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router'
 import {Menu} from "antd";
-import {
-  TeamOutlined,
-  HomeOutlined,
-  AppstoreOutlined,
-  MenuOutlined,
-  UnlockOutlined,
-  ClusterOutlined
-} from '@ant-design/icons'
 
+import {createFromIconfontCN} from '@ant-design/icons';
+
+// 自定义的iconfont
+const IconFont = createFromIconfontCN({
+  scriptUrl: '/iconfont/iconfont.js',// 引用静态的地址
+});
 
 class MNav extends React.Component {
   clickHandler = (val) => {
@@ -29,57 +27,37 @@ class MNav extends React.Component {
   }
 
   render() {
-    let menus = [];
-    this.props.user.userInfo.data.roles && this.props.user.userInfo.data.roles.forEach(item => {
-      item.menus.forEach(item2 => {
-        menus[item2.menuCode] = item2;
-      })
-    });
-
     return <Menu mode="inline" onClick={this.clickHandler} selectedKeys={this.props.location.pathname}>
       <Menu.Item key="/home/index">
-        <HomeOutlined/>
+        <IconFont type={'myiconshouye'}/>
         <span>首页</span>
       </Menu.Item>
-      <Menu.SubMenu key="sub" icon={<AppstoreOutlined/>} title="个人中心">
+      <Menu.SubMenu key="sub" icon={<IconFont type={'myicongongzuotaishouye'}/>} title="个人中心">
         <Menu.Item key="/home/personCenter/personInfo">
-          <TeamOutlined/>
+          <IconFont type={'myiconzichanxinxibuquancelve'}/>
           <span>个人信息</span>
         </Menu.Item>
       </Menu.SubMenu>
-      <Menu.SubMenu key="sub2" icon={<AppstoreOutlined/>} title="系统管理">
-        {
-          menus['userManager'] !== undefined
-          && <Menu.Item key="/home/system_manager/user_manager">
-            <TeamOutlined/>
-            <span>用户管理</span>
-          </Menu.Item>
-        }
-        {
-          menus['roleManager'] !== undefined
-          && <Menu.Item key="/home/system_manager/role_manager">
-            <ClusterOutlined/>
-            <span>角色管理</span>
-          </Menu.Item>
-        }
-        {
-          menus['menuManager'] !== undefined
-          && <Menu.Item key="/home/system_manager/menu_manager">
-            <MenuOutlined/>
-            <span>菜单管理</span>
-          </Menu.Item>
-        }
-        {
-          menus['buttonManager'] !== undefined
-          && <Menu.Item key="/home/system_manager/btn_manager">
-            <UnlockOutlined/>
-            <span>按钮管理</span>
-          </Menu.Item>
-        }
-      </Menu.SubMenu>
+      {/*遍历获取到的数据*/}
+      {
+        this.props.user.menu.map(item => {
+          return <Menu.SubMenu
+            key={item.menuCode}
+            icon={<IconFont type={(item.remark || 'myiconmobanguanli')}/>}
+            title={item.menuName}>
+            {
+              item.children.map(item2 => {
+                return <Menu.Item key={item2.data}>
+                  <IconFont type={(item2.remark || 'myiconmobanguanli')}/>
+                  <span>{item2.menuName}</span>
+                </Menu.Item>
+              })
+            }
+          </Menu.SubMenu>
+        })
+      }
     </Menu>
   }
-
 }
 
 export default connect(MNav.stateToProps)(withRouter(MNav));

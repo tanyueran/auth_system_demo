@@ -123,4 +123,26 @@
             (#{item.id},#{item.menuId},#{item.buttonId})
         </foreach>
     </insert>
+
+    <!--查询所有的角色下的菜单-->
+    <select id="getAllMenuByRoleIds" parameterType="List" resultType="Menu">
+        SELECT
+        m.id,
+        m.menu_name,
+        m.menu_code,
+        m.create_time,
+        m.update_time,
+        m.`data`,
+        m.pid,
+        m.remark,
+        m.menu_type
+        FROM
+        `role_menu_table` rm
+        LEFT JOIN `menu_table` m ON rm.menu_id = m.id
+        WHERE
+        rm.role_id IN
+        <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

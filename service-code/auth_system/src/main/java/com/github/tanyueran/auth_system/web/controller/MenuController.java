@@ -4,6 +4,7 @@ import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
 import com.github.tanyueran.auth_system.service.MenuService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,28 +29,28 @@ public class MenuController {
         return menuService.getLevelMenu();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Boolean delMenuById(@PathVariable("id") String id) throws Exception {
         return menuService.deleteMenuById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public Boolean addMenu(@RequestBody Menu menu) throws Exception {
         return menuService.addMenu(menu);
     }
 
-    @PutMapping("/")
+    @PutMapping("/edit")
     public Boolean editMenu(@RequestBody Menu menu) throws Exception {
         return menuService.editMenu(menu);
     }
 
-    // 获取菜单下面挂载的按钮
+    @ApiOperation("获取菜单下面挂载的按钮")
     @GetMapping("/btn/{id}")
     public List<Button> getButtonByMenuId(@PathVariable("id") String id) {
         return menuService.getButtonForMenuId(id);
     }
 
-    // 菜单下的挂载的按钮更新
+    @ApiOperation("菜单下的挂载的按钮更新")
     @PutMapping("/btn/update/{menuId}/{idList}")
     public Boolean updateButtonByMenuId(@PathVariable("menuId") String menuId, @PathVariable("idList") String idList) {
         if (idList.equals("null")) {
@@ -57,5 +58,14 @@ public class MenuController {
         }
         List<String> list = Arrays.asList(idList.split(","));
         return menuService.updateButtonForMenuId(menuId, list);
+    }
+
+    @ApiOperation("获取该用户下的菜单配置")
+    @PostMapping("/levelMenu/roleIds")
+    public List<LevelMenuPojo> getAllMenuOnThisUser(@RequestBody List<String> roleIds) throws Exception {
+        if (roleIds == null || roleIds.size() == 0) {
+            return new ArrayList<>();
+        }
+        return menuService.getMenuByRoleIds(roleIds);
     }
 }

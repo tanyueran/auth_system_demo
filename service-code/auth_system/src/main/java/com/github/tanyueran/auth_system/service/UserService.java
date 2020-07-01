@@ -12,6 +12,8 @@ import java.util.Map;
 public interface UserService extends UserDetailsService {
     UserPojo getUserByUserCode(String userCode);
 
+    UserPojo getUserInfoByUserCode(String userCode);
+
     Boolean addUser(User user) throws Exception;
 
     // 根据关键词分页查询用户

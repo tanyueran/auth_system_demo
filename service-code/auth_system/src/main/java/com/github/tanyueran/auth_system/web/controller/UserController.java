@@ -54,7 +54,7 @@ public class UserController {
     public UserPojo getUserInfo(HttpServletRequest request) throws Exception {
         String token = request.getHeader("Authorization");
         Map<String, String> map = JwtUtil.verifyToken(token, (RSAPublicKey) publicKey);
-        UserPojo user = userService.getUserByUserCode(map.get("userCode"));
+        UserPojo user = userService.getUserInfoByUserCode(map.get("userCode"));
         user.setPassword(null);
         return user;
     }
@@ -77,7 +77,7 @@ public class UserController {
     // 新增用户
     @PostMapping("/add")
     public Boolean addUser(@RequestBody User user) throws Exception {
-        user.setPassword("123456");
+        user.setPassword("password");
         return userService.addUser(user);
     }
 

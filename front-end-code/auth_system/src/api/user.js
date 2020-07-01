@@ -11,6 +11,8 @@ const api = {
   register: `/${API}/user/register`,
   // 获取用户信息
   getUserInfo: `/${API}/user/getUserInfo`,
+  // 获取当前用户的权限菜单
+  getMenu: `/${API}/menu/levelMenu/roleIds`,
 };
 
 // 用户登录
@@ -35,6 +37,15 @@ export async function register(data) {
   return request({
     method: 'post',
     url: api.register,
+    data,
+  })
+}
+
+// 获取菜单
+export async function getMenu(data) {
+  return request({
+    method: 'post',
+    url: api.getMenu,
     data,
   })
 }

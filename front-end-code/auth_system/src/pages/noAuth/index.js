@@ -1,13 +1,13 @@
 /**
  * @author tanxin
  * @date $
- * @Description: 404页面
+ * @Description: 权限不够页面
  */
 import React from 'react';
 import {withRouter} from 'react-router'
-import img from '../../images/404.jpg'
+import img from '../../images/401.jpg'
 
-class Page404 extends React.Component {
+class Page401 extends React.Component {
   render() {
     return <div style={{height: "500px"}}>
       <h4 className="text-center">
@@ -18,10 +18,10 @@ class Page404 extends React.Component {
           }
           }>返回首页</a>
         </p>
-        <img style={{width: '90%', height: 'auto'}} src={img} alt="404"/>
+        <img style={{width: '90%', height: 'auto'}} src={img} alt="401"/>
       </h4>
     </div>
   }
 }
 
-export default withRouter(Page404);
+export default withRouter(Page401);

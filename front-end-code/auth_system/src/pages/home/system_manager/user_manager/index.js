@@ -71,6 +71,10 @@ class UserManagerPage extends React.Component {
       render: (text, obj, index) => {
         return <div>
           <Button onClick={() => {
+            this.getThisUserRole(obj.id);
+          }} size={"small"} icon={<AppstoreAddOutlined/>} title={"角色配置"}>配置角色</Button>
+          &nbsp;
+          <Button onClick={() => {
             this.setState({
               modalObj: {
                 show: true,
@@ -82,7 +86,7 @@ class UserManagerPage extends React.Component {
                 this.state.formRef.current.resetFields();
               }
             })
-          }} size={"small"} icon={<EditOutlined/>}>编辑</Button>
+          }} title={"编辑用户信息"} size={"small"} icon={<EditOutlined/>}/>
           &nbsp;
           <Popconfirm
             title="您确定删除此资源嘛?"
@@ -92,28 +96,8 @@ class UserManagerPage extends React.Component {
             okText="是"
             cancelText="否"
           >
-            <Button size={"small"} icon={<DeleteOutlined/>} danger>删除</Button>
+            <Button title={"删除该用户"} size={"small"} icon={<DeleteOutlined/>} danger/>
           </Popconfirm>
-          {
-            obj.menuType === '0' ?
-              <>&nbsp;
-                <Button onClick={() => {
-                  this.setState({
-                    modalObj: {
-                      show: true,
-                      isEdit: false,
-                      pid: obj.id,
-                      menuType: '1',
-                    }
-                  })
-                }} size={"small"} type={'primary'} icon={<PlusOutlined/>} title={"添加子菜单"}>添加</Button></> :
-              <>
-                &nbsp;
-                <Button onClick={() => {
-                  this.getThisUserRole(obj.id);
-                }} size={"small"} icon={<AppstoreAddOutlined/>} title={"按钮权限配置"}>配置</Button>
-              </>
-          }
         </div>
       }
     },
@@ -361,6 +345,10 @@ class UserManagerPage extends React.Component {
     this.getKey();
     this.getData();
     this.getAllRoles();
+  }
+
+  componentWillUnmount() {
+    this.setState = () => false;
   }
 
 

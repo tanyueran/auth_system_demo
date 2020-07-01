@@ -1,5 +1,6 @@
 package com.github.tanyueran.auth_system.service.imp;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.entity.Role;
@@ -68,6 +69,26 @@ public class UserServiceImp implements UserService {
     @Override
     public UserPojo getUserByUserCode(String userCode) {
         return userMapper.getUserInfoByUserCode(userCode);
+    }
+
+    @Override
+    public UserPojo getUserInfoByUserCode(String userCode) {
+        User user = userMapper.getUserInfoByCode(userCode);
+        List<Role> roles = userMapper.getRolesByUserId(user.getId());
+        UserPojo userPojo = JSONObject.parseObject(JSONObject.toJSONString(user), UserPojo.class);
+        List<RolePojo> rolePojos = new ArrayList<>();
+        roles.forEach(item -> {
+            RolePojo rolePojo = new RolePojo();
+            rolePojo.setMenus(null);
+            rolePojo.setId(item.getId());
+            rolePojo.setRemark(item.getRemark());
+            rolePojo.setRoleName(item.getRoleName());
+            rolePojo.setCreateTime(item.getCreateTime());
+            rolePojo.setUpdateTime(item.getUpdateTime());
+            rolePojos.add(rolePojo);
+        });
+        userPojo.setRoles(rolePojos);
+        return userPojo;
     }
 
     @Override

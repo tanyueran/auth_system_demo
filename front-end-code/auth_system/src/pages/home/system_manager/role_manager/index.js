@@ -14,7 +14,8 @@ import {
   Form,
   Input,
   Modal,
-  Checkbox,
+  Tree,
+  Spin,
 } from "antd";
 
 import {
@@ -22,7 +23,7 @@ import {
   UndoOutlined,
   EditOutlined,
   DeleteOutlined,
-  AppstoreAddOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 
 import style from './index.module.scss'
@@ -36,7 +37,7 @@ import {
   getMenuByRoleid,
 } from "../../../../api/role_manager";
 import {getPrimaryKey} from "../../../../api/common";
-import {getAllMenuNoLevel} from "../../../../api/menu_manager";
+import {queryAllMenu} from "../../../../api/menu_manager";
 
 class RoleManagerPage extends React.Component {
 
@@ -68,6 +69,10 @@ class RoleManagerPage extends React.Component {
       render: (text, obj, index) => {
         return <div>
           <Button onClick={() => {
+            this.getThisRoleMenu(obj.id);
+          }} size={"small"} icon={<ApartmentOutlined/>} title={"配置菜单权限"}>配置菜单</Button>
+          &nbsp;
+          <Button title={"编辑角色"} onClick={() => {
             this.setState({
               modalObj: {
                 show: true,
@@ -81,7 +86,7 @@ class RoleManagerPage extends React.Component {
                 this.state.formRef.current.resetFields();
               }
             })
-          }} size={"small"} icon={<EditOutlined/>}>编辑</Button>
+          }} size={"small"} icon={<EditOutlined/>}/>
           &nbsp;
           <Popconfirm
             title="您确定删除此资源嘛?"
@@ -91,28 +96,8 @@ class RoleManagerPage extends React.Component {
             okText="是"
             cancelText="否"
           >
-            <Button size={"small"} icon={<DeleteOutlined/>} danger>删除</Button>
+            <Button title={"删除角色"} size={"small"} icon={<DeleteOutlined/>} danger/>
           </Popconfirm>
-          {
-            obj.menuType === '0' ?
-              <>&nbsp;
-                <Button onClick={() => {
-                  this.setState({
-                    modalObj: {
-                      show: true,
-                      isEdit: false,
-                      pid: obj.id,
-                      menuType: '1',
-                    }
-                  })
-                }} size={"small"} type={'primary'} icon={<PlusOutlined/>} title={"添加子菜单"}>添加</Button></> :
-              <>
-                &nbsp;
-                <Button onClick={() => {
-                  this.getThisRoleMenu(obj.id);
-                }} size={"small"} icon={<AppstoreAddOutlined/>} title={"按钮权限配置"}>配置</Button>
-              </>
-          }
         </div>
       }
     },
@@ -133,8 +118,10 @@ class RoleManagerPage extends React.Component {
     menuList: [],
     // 菜单的模块框
     menuModalObj: {
+      loading: false,
       show: false,
       roleId: '',
+      // 默认选中的模块
       list: [],
     }
   };
@@ -255,6 +242,7 @@ class RoleManagerPage extends React.Component {
     this.setState(state => {
       return Object.assign({}, state, {
         menuModalObj: {
+          loading: false,
           roleId: '',
           list: [],
           show: false,
@@ -269,6 +257,7 @@ class RoleManagerPage extends React.Component {
       return Object.assign({}, state, {
         menuModalObj: {
           ...state.menuModalObj,
+          loading: true,
           roleId: id,
           show: true,
         }
@@ -290,7 +279,14 @@ class RoleManagerPage extends React.Component {
     }).catch(err => {
       console.log(err);
     }).finally(() => {
-
+      this.setState(state => {
+        return Object.assign({}, state, {
+          menuModalObj: {
+            ...state.menuModalObj,
+            loading: false,
+          }
+        });
+      });
     })
   };
 
@@ -317,16 +313,23 @@ class RoleManagerPage extends React.Component {
 
   // 查询所有的菜单信息
   getAllMenu = () => {
-    getAllMenuNoLevel().then(data => {
-      let list = [];
-      data.forEach(item => {
-        if (item.menuType === '0') return;
-        list.push({
-          id: item.id,
-          label: `[${item.menuCode}] - ${item.menuName}`,
-          value: item.id,
-        })
-      });
+    queryAllMenu().then(data => {
+      let dealData = (treeData) => {
+        let list = [];
+        if (Array.isArray(treeData)) {
+          treeData.forEach(item => {
+            let children = dealData(item.children);
+            list.push({
+              key: item.id,
+              title: item.menuName,
+              children: children,
+            });
+          });
+        }
+        return list;
+      };
+      let list = dealData(data);
+
       this.setState({
         _menuList: data,
         menuList: list,
@@ -341,6 +344,10 @@ class RoleManagerPage extends React.Component {
     this.getData();
     this.getAllMenu();
     this.getKey();
+  }
+
+  componentWillUnmount() {
+    this.setState = () => false;
   }
 
 
@@ -445,16 +452,24 @@ class RoleManagerPage extends React.Component {
           this.closeRoleModal();
         }}
       >
-        <Checkbox.Group onChange={(val) => {
-          this.setState(state => {
-            return Object.assign({}, state, {
-              menuModalObj: {
-                ...state.menuModalObj,
-                list: val,
-              }
-            })
-          });
-        }} value={this.state.menuModalObj.list} options={this.state.menuList}/>
+        <Spin spinning={this.state.menuModalObj.loading}>
+          <Tree
+            checkable
+            defaultExpandAll
+            checkedKeys={this.state.menuModalObj.list}
+            onCheck={(data) => {
+              this.setState(state => {
+                return Object.assign({}, state, {
+                  menuModalObj: {
+                    ...state.menuModalObj,
+                    list: data,
+                  }
+                })
+              });
+            }}
+            treeData={this.state.menuList}
+          />
+        </Spin>
       </Modal>
     </div>
   }

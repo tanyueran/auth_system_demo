@@ -4,11 +4,9 @@
  * @Description: 个人信息
  */
 import React from 'react';
-import {
-} from "antd";
+import {} from "antd";
 
-import {
-} from "@ant-design/icons";
+import {} from "@ant-design/icons";
 
 // import style from './index.module.scss'
 
