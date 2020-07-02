@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +16,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice(basePackages = {"com.github.tanyueran.auth_system.web.controller"})
 public class ApiHandler implements ResponseBodyAdvice {
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public MyResponseBody getExceptions(Exception e) {
+        e.printStackTrace();
+        return MyResponseBody.error(null, e.getMessage());
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
@@ -28,13 +36,6 @@ public class ApiHandler implements ResponseBodyAdvice {
     public MyResponseBody notFound(NoHandlerFoundException e) {
         e.printStackTrace();
         return MyResponseBody.error(null, "没有找到");
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public MyResponseBody getExceptions(Exception e) {
-        e.printStackTrace();
-        return MyResponseBody.error(null, e.getMessage());
     }
 
 

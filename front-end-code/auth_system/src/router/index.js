@@ -37,7 +37,7 @@ export default [
       },
 
       /**
-       * 系统管理
+       * ====================================系统管理
        * */
       // 用户管理
       {
@@ -63,6 +63,18 @@ export default [
         exact: true,
         component: MLoading(() => import('../pages/home/system_manager/btn_manager/index.js')),
       },
+
+
+      /**
+       * ====================================测试模块
+       * */
+      // 测试
+      {
+        path: '/home/test/test',
+        exact: true,
+        component: MLoading(() => import('../pages/home/test/test/index.js')),
+      },
+
       {
         path: '/home/404',
         component: MLoading(notFoundPageUrl),

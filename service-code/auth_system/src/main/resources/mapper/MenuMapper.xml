@@ -9,7 +9,7 @@
         FROM
             `menu_table`
         ORDER BY
-            create_time DESC
+            sort DESC
     </select>
 
     <!--根据id查询-->
@@ -55,7 +55,10 @@
             menu_code,
             menu_type,
             remark,
-            data,
+            `data`,
+            menu_icon,
+            menu_url,
+            sort,
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{id},
@@ -67,6 +70,9 @@
             #{menuType},
             #{remark},
             #{data},
+            #{menuIcon},
+            #{menuUrl},
+            #{sort},
         </trim>
     </insert>
 
@@ -92,8 +98,17 @@
             <if test="data != null">
                 `data` = #{data},
             </if>
+            <if test="menuIcon != null">
+                menu_icon = #{menuIcon},
+            </if>
             <if test="remark != null">
                 remark = #{remark},
+            </if>
+            <if test="menuUrl != null">
+                menu_url = #{menuUrl},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
             </if>
         </trim>
         WHERE id = #{id}
@@ -135,7 +150,10 @@
         m.`data`,
         m.pid,
         m.remark,
-        m.menu_type
+        m.menu_type,
+        m.menu_icon,
+        m.menu_url,
+        m.sort
         FROM
         `role_menu_table` rm
         LEFT JOIN `menu_table` m ON rm.menu_id = m.id
@@ -144,5 +162,6 @@
         <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
             #{item}
         </foreach>
+        ORDER BY m.sort DESC
     </select>
 </mapper>

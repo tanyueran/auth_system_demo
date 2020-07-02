@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String userCode;// 账号
     private Integer sex;// 性别
     private String desc;// 描述
+    private String active;// 是否开启，0，关闭，1，开启
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;// 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -22,7 +23,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String id, String userName, String fileId, String password, String userCode, Integer sex, String desc, Date createTime, Date updateTime) {
+    public User(String id, String userName, String fileId, String password, String userCode, Integer sex, String desc, String active, Date createTime, Date updateTime) {
         this.id = id;
         this.userName = userName;
         this.fileId = fileId;
@@ -30,6 +31,7 @@ public class User implements Serializable {
         this.userCode = userCode;
         this.sex = sex;
         this.desc = desc;
+        this.active = active;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -44,6 +46,7 @@ public class User implements Serializable {
                 ", userCode='" + userCode + '\'' +
                 ", sex=" + sex +
                 ", desc='" + desc + '\'' +
+                ", active='" + active + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
@@ -103,6 +106,14 @@ public class User implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 
     public Date getCreateTime() {

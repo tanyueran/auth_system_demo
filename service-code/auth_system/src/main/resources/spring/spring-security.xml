@@ -10,6 +10,7 @@
     <!--引入公钥私钥-->
     <bean class="com.github.tanyueran.auth_system.beans.MyKeys"/>
 
+    <!--资源放开的配置-->
     <!-- swagger -->
     <security:http security="none" pattern="/v2/api-docs"/>
     <security:http security="none" pattern="/swagger-resources/**"/>
@@ -32,9 +33,8 @@
 
     <!--添加具体的拦截规则-->
     <security:http auto-config="true" use-expressions="true">
-        <!--配置拦截的认真 和 可以认证的角色-->
+        <!--配置拦截的认证 和 可以认证的角色-->
         <security:intercept-url pattern="/html/login.html" access="permitAll()"/>
-        <!--放开请求csrf-->
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <!--退出的地址 -->
         <security:logout
@@ -49,7 +49,6 @@
         -->
         <security:form-login
                 login-page="/html/login.html"
-                authentication-failure-url="/html/login.html"
                 default-target-url="/html/index.html"
                 login-processing-url="/login"/>
         <!--添加jwt认证-->
@@ -59,13 +58,14 @@
     </security:http>
 
     <!--引入自定义的加密器-->
-    <bean class="com.github.tanyueran.auth_system.config.MyPasswordEncoder" id="mySpringSecurityConfig"/>
+    <bean id="myPasswordEncoder" class="com.github.tanyueran.auth_system.config.MyPasswordEncoder"/>
 
     <!-- 配置认证管理器 -->
     <security:authentication-manager alias="authenticationManager">
         <!-- 认证的提供者 -->
         <security:authentication-provider user-service-ref="userServiceImp">
-            <security:password-encoder ref="mySpringSecurityConfig"/>
+            <!--配置自定义的密码加密-->
+            <security:password-encoder ref="myPasswordEncoder"/>
             <!--<user-service>
                 <user name="admin" password="{noop}123456" authorities="ROLE_ADMIN"/>
                 <user name="user" password="{noop}123456" authorities="ROLE_USER"/>

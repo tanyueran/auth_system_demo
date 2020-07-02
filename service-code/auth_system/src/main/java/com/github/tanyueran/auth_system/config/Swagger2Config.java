@@ -24,7 +24,7 @@ public class Swagger2Config {
     @Bean
     public Docket docket() {
         ParameterBuilder ticketPar = new ParameterBuilder();
-        List<Parameter> pars = new ArrayList<Parameter>();
+        List<Parameter> pars = new ArrayList<>();
         //Token 以及Authorization 为自定义的参数，session保存的名字是哪个就可以写成那个
         ticketPar.name("Authorization").description("user ticket")
                 .modelRef(new ModelRef("string")).parameterType("header")

@@ -92,7 +92,7 @@ export function pullUserInfo() {
         result.forEach(item => {
           if (Array.isArray(item.children)) {
             item.children.forEach(item2 => {
-              o[item2.data] = true;
+              o[item2.menuUrl] = true;
             });
           }
         });

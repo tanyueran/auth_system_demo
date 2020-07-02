@@ -10,12 +10,16 @@ import com.github.tanyueran.auth_system.web.vo.MyResponseBody;
 import com.github.tanyueran.auth_system.web.vo.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@Api("人员模块")
+@Api(value = "人员模块", tags = "人员模块", description = "人员模块")
 public class UserController {
 
     @Autowired
@@ -74,32 +78,32 @@ public class UserController {
         return result;
     }
 
-    // 新增用户
     @PostMapping("/add")
+    @ApiOperation("新增用户")
     public Boolean addUser(@RequestBody User user) throws Exception {
         user.setPassword("password");
         return userService.addUser(user);
     }
 
-    // 编辑用户
+    @ApiOperation("编辑用户")
     @PutMapping("/edit")
     public Boolean editUserByUserId(@RequestBody User user) throws Exception {
         return userService.editUserByUserId(user);
     }
 
-    // 删除用户
+    @ApiOperation("删除用户")
     @DeleteMapping("/delete/{id}")
     public Boolean deleteUserById(@PathVariable("id") String id) {
         return userService.deleteUserById(id);
     }
 
-    // 获取用户的角色
+    @ApiOperation("获取用户的角色")
     @GetMapping("/role/{id}")
     public List<Role> getRoleByUserId(@PathVariable("id") String id) {
         return userService.getRolesByUserId(id);
     }
 
-    // 编辑用户的角色
+    @ApiOperation("编辑用户的角色")
     @PutMapping("/role/{id}/{roleIdList}")
     public Boolean updateRoleByUserId(@PathVariable("id") String userId, @PathVariable("roleIdList") String roleIdList) {
         if (roleIdList.equals("null")) {
@@ -107,4 +111,5 @@ public class UserController {
         }
         return userService.updateRole(userId, Arrays.asList(roleIdList.split(",")));
     }
+
 }

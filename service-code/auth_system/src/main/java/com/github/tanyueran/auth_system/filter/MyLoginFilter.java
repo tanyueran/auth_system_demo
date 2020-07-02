@@ -5,9 +5,12 @@ import com.github.tanyueran.auth_system.utils.ResponseDataUtil;
 import com.github.tanyueran.auth_system.web.vo.MyResponseBody;
 import com.github.tanyueran.auth_system.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
 
@@ -51,7 +54,7 @@ public class MyLoginFilter extends UsernamePasswordAuthenticationFilter {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
@@ -60,6 +63,7 @@ public class MyLoginFilter extends UsernamePasswordAuthenticationFilter {
                                          HttpServletResponse response, FilterChain chain, Authentication authResult) {
         Map<String, String> map = new HashMap<>();
         map.put("userCode", authResult.getName());
+
         map.put("roles", JSON.toJSONString(authResult.getAuthorities()));
         String token = null;
         try {
@@ -75,6 +79,14 @@ public class MyLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request,
                                               HttpServletResponse response, AuthenticationException failed)
             throws IOException {
-        ResponseDataUtil.ResponseData(response, MyResponseBody.error(false, "账号密码错误"));
+        String str = null;
+        if (failed instanceof LockedException) {
+            str = "账号未激活";
+        } else if (failed instanceof BadCredentialsException || failed instanceof UsernameNotFoundException) {
+            str = "账号或者密码错误";
+        } else {
+            str = failed.getMessage();
+        }
+        ResponseDataUtil.ResponseData(response, MyResponseBody.error(false, "登录失败：" + str));
     }
 }

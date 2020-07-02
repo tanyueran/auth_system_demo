@@ -4,6 +4,7 @@ import com.github.tanyueran.auth_system.entity.Button;
 import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.pojo.LevelMenuPojo;
 import com.github.tanyueran.auth_system.service.MenuService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,32 +15,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/menu")
+@Api(value = "菜单模块", tags = "菜单模块", description = "菜单模块")
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
     @GetMapping("/all")
+    @ApiOperation("获取所有的菜单")
     public List<Menu> getAllMenu() {
         return menuService.getAllMenu();
     }
 
     @GetMapping("/levelMenu/all")
+    @ApiOperation("按照层级获取菜单")
     public List<LevelMenuPojo> getAllLevelMenu() {
         return menuService.getLevelMenu();
     }
 
     @DeleteMapping("/delete/{id}")
+    @ApiOperation("根据id删除菜单")
     public Boolean delMenuById(@PathVariable("id") String id) throws Exception {
         return menuService.deleteMenuById(id);
     }
 
     @PostMapping("/add")
+    @ApiOperation("添加菜单")
     public Boolean addMenu(@RequestBody Menu menu) throws Exception {
         return menuService.addMenu(menu);
     }
 
     @PutMapping("/edit")
+    @ApiOperation("编辑菜单")
     public Boolean editMenu(@RequestBody Menu menu) throws Exception {
         return menuService.editMenu(menu);
     }

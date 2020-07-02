@@ -2,7 +2,6 @@ package com.github.tanyueran.auth_system.service.imp;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.tanyueran.auth_system.entity.Button;
-import com.github.tanyueran.auth_system.entity.Menu;
 import com.github.tanyueran.auth_system.entity.Role;
 import com.github.tanyueran.auth_system.entity.User;
 import com.github.tanyueran.auth_system.mapper.UserMapper;
@@ -13,6 +12,8 @@ import com.github.tanyueran.auth_system.pojo.UserPojo;
 import com.github.tanyueran.auth_system.service.UserService;
 import com.github.tanyueran.auth_system.web.controller.CommonController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,37 +34,35 @@ public class UserServiceImp implements UserService {
 
     // security认证
     @Override
-    public UserDetails loadUserByUsername(String userCode) throws UsernameNotFoundException {
-        try {
-            UserPojo user = getUserByUserCode(userCode);
-            if (user == null) {
-                return null;
-            }
-            List<SimpleGrantedAuthority> list = new ArrayList<>();
-            List<RolePojo> roles = user.getRoles();
-            if (roles != null) {
-                for (RolePojo role : roles) {
-                    list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
-                    // 权限全部添加按钮权限，（菜单code:按钮code）
-                    List<MenuPojo> menus = role.getMenus();
-                    if (menus != null) {
-                        for (MenuPojo menu : menus) {
-                            List<Button> buttons = menu.getButtons();
-                            if (buttons != null) {
-                                for (Button button : buttons) {
-                                    list.add(new SimpleGrantedAuthority(menu.getMenuCode() + ":" + button.getButtonCode()));
-                                }
+    public UserDetails loadUserByUsername(String userCode) throws AuthenticationException {
+        UserPojo user = getUserByUserCode(userCode);
+        if (user == null) {
+            throw new UsernameNotFoundException("账号或者密码错误");
+        }
+        if (user.getActive().equals("0")) {
+            throw new LockedException("账号被锁定了");
+        }
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        List<RolePojo> roles = user.getRoles();
+        if (roles != null) {
+            for (RolePojo role : roles) {
+                list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
+                // 权限全部添加按钮权限，（菜单code:按钮code）
+                List<MenuPojo> menus = role.getMenus();
+                if (menus != null) {
+                    for (MenuPojo menu : menus) {
+                        List<Button> buttons = menu.getButtons();
+                        if (buttons != null) {
+                            for (Button button : buttons) {
+                                list.add(new SimpleGrantedAuthority(menu.getMenuCode() + ":" + button.getButtonCode()));
                             }
                         }
                     }
                 }
             }
-            UserDetails details = new org.springframework.security.core.userdetails.User(userCode, user.getPassword(), list);
-            return details;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+        UserDetails details = new org.springframework.security.core.userdetails.User(userCode, user.getPassword(), user.getActive().equals("1"), true, true, true, list);
+        return details;
     }
 
     @Override

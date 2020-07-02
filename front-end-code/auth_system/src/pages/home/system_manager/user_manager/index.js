@@ -16,6 +16,7 @@ import {
   Form,
   message,
   Checkbox,
+  Switch,
 } from "antd";
 
 import {
@@ -49,6 +50,12 @@ class UserManagerPage extends React.Component {
       key: 'userCode',
     },
     {
+      title: '激活',
+      dataIndex: 'active',
+      key: 'active',
+      render: (txt) => txt === '1' ? '是' : '否',
+    },
+    {
       title: '性别',
       dataIndex: 'sex',
       key: 'sex',
@@ -78,7 +85,10 @@ class UserManagerPage extends React.Component {
             this.setState({
               modalObj: {
                 show: true,
-                obj: {...obj},
+                obj: {
+                  ...obj,
+                  active: obj.active ? '1' : '0'
+                },
                 isEdit: true,
               }
             }, () => {
@@ -262,6 +272,7 @@ class UserManagerPage extends React.Component {
       editUser({
         ...this.state.modalObj.obj,
         ...data,
+        active: data.active ? '1' : '0'
       }).then(data => {
         if (data) {
           message.success("操作成功");
@@ -280,6 +291,7 @@ class UserManagerPage extends React.Component {
     } else {// 新增
       addUser({
         ...data,
+        active: data.active ? '1' : '0',
         id: this.state.idList.shift(),
       }).then(data => {
         if (data) {
@@ -485,6 +497,10 @@ class UserManagerPage extends React.Component {
             rules={[{required: true, message: '请输入账号!'}]}
           >
             <Input placeholder={"请输入"}/>
+          </Form.Item>
+
+          <Form.Item name="active" label="是否使用">
+            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
           </Form.Item>
 
           <Form.Item name="sex" label="性别">

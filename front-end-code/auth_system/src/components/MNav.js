@@ -27,14 +27,17 @@ class MNav extends React.Component {
   }
 
   render() {
+    let fontStyle = {
+      fontSize: '18px',
+    };
     return <Menu mode="inline" onClick={this.clickHandler} selectedKeys={this.props.location.pathname}>
       <Menu.Item key="/home/index">
-        <IconFont type={'myiconshouye'}/>
+        <IconFont style={fontStyle} type={'myiconshouye'}/>
         <span>首页</span>
       </Menu.Item>
-      <Menu.SubMenu key="sub" icon={<IconFont type={'myicongongzuotaishouye'}/>} title="个人中心">
+      <Menu.SubMenu key="sub" icon={<IconFont style={fontStyle} type={'myicongongzuotaishouye'}/>} title="个人中心">
         <Menu.Item key="/home/personCenter/personInfo">
-          <IconFont type={'myiconzichanxinxibuquancelve'}/>
+          <IconFont style={fontStyle} type={'myiconzichanxinxibuquancelve'}/>
           <span>个人信息</span>
         </Menu.Item>
       </Menu.SubMenu>
@@ -43,12 +46,12 @@ class MNav extends React.Component {
         this.props.user.menu.map(item => {
           return <Menu.SubMenu
             key={item.menuCode}
-            icon={<IconFont type={(item.remark || 'myiconmobanguanli')}/>}
+            icon={<IconFont style={fontStyle} type={(item.menuIcon || 'myiconmobanguanli')}/>}
             title={item.menuName}>
             {
               item.children.map(item2 => {
-                return <Menu.Item key={item2.data}>
-                  <IconFont type={(item2.remark || 'myiconmobanguanli')}/>
+                return <Menu.Item key={item2.menuUrl}>
+                  <IconFont style={fontStyle} type={(item2.menuIcon || 'myiconmobanguanli')}/>
                   <span>{item2.menuName}</span>
                 </Menu.Item>
               })

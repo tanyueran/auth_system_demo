@@ -12,6 +12,9 @@ public class Menu implements Serializable {
     private String menuName;
     private String menuCode;
     private String menuType;//菜单类型（0、一级菜单，1、二级菜单）
+    private String menuIcon;
+    private String menuUrl;
+    private int sort;
     private String remark;
     private String data;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -22,12 +25,15 @@ public class Menu implements Serializable {
     public Menu() {
     }
 
-    public Menu(String id, String pid, String menuName, String menuCode, String menuType, String remark, String data, Date createTime, Date updateTime) {
+    public Menu(String id, String pid, String menuName, String menuCode, String menuType, String menuIcon, String menuUrl, int sort, String remark, String data, Date createTime, Date updateTime) {
         this.id = id;
         this.pid = pid;
         this.menuName = menuName;
         this.menuCode = menuCode;
         this.menuType = menuType;
+        this.menuIcon = menuIcon;
+        this.menuUrl = menuUrl;
+        this.sort = sort;
         this.remark = remark;
         this.data = data;
         this.createTime = createTime;
@@ -42,6 +48,9 @@ public class Menu implements Serializable {
                 ", menuName='" + menuName + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuType='" + menuType + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", sort=" + sort +
                 ", remark='" + remark + '\'' +
                 ", data='" + data + '\'' +
                 ", createTime=" + createTime +
@@ -87,6 +96,30 @@ public class Menu implements Serializable {
 
     public void setMenuType(String menuType) {
         this.menuType = menuType;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
+    }
+
+    public String getMenuUrl() {
+        return menuUrl;
+    }
+
+    public void setMenuUrl(String menuUrl) {
+        this.menuUrl = menuUrl;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 
     public String getRemark() {

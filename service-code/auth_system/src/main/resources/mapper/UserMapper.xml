@@ -11,6 +11,7 @@
         <result column="file_id" property="fileId"/>
         <result column="password" property="password"/>
         <result column="sex" property="sex"/>
+        <result column="active" property="active"/>
         <result column="desc" property="desc"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -35,6 +36,9 @@
         <result column="menu_name" property="menuName"/>
         <result column="menu_code" property="menuCode"/>
         <result column="menu_type" property="menuType"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
         <result column="data" property="data"/>
         <result column="create_time" property="createTime"/>
@@ -45,7 +49,7 @@
     <!--查询用户信息-->
     <select id="getUserInfoByUserCode" resultMap="userMap">
         SELECT
-            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time,active
         FROM
             `user_table`
         WHERE
@@ -54,7 +58,7 @@
 
     <select id="getUserInfoById" resultType="User">
         SELECT
-            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time,active
         FROM
             `user_table`
         WHERE
@@ -63,7 +67,7 @@
 
     <select id="getUserInfoByCode" resultType="User">
         SELECT
-            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time
+            id,user_name,file_id,user_code,password,sex,`desc`,create_time,update_time,active
         FROM
             `user_table`
         WHERE
@@ -106,9 +110,9 @@
 
     <!--新增用户-->
     <insert id="addUser" parameterType="User">
-      INSERT INTO `user_table` ( id, user_name, `password`, user_code, sex, `desc` )
+      INSERT INTO `user_table` ( id, user_name, `password`, user_code, sex, `desc` ,active)
         VALUES
-            (#{id}, #{userName}, #{password}, #{userCode},#{sex},#{desc})
+            (#{id}, #{userName}, #{password}, #{userCode},#{sex},#{desc},#{active})
     </insert>
 
     <!--根据关键词分页查询用户-->
@@ -149,6 +153,9 @@
             </if>
             <if test="userCode != null">
                 user_code = #{userCode},
+            </if>
+            <if test="active != null">
+                active = #{active},
             </if>
             <if test="sex != null">
                 sex = #{sex},

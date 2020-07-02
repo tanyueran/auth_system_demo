@@ -24,7 +24,10 @@ import {
   DeleteOutlined,
   EditOutlined,
   AppstoreAddOutlined,
+
+  createFromIconfontCN,
 } from "@ant-design/icons";
+
 
 import MTableTitle from '../../../../components/MTableTitle.js'
 import style from "./index.module.scss";
@@ -40,16 +43,23 @@ import {
   updateButtonByMenuId,
 } from "../../../../api/menu_manager";
 
+// 自定义的iconfont
+const IconFont = createFromIconfontCN({
+  scriptUrl: '/iconfont/iconfont.js',// 引用静态的地址
+});
+
 class MenuManagerPage extends React.Component {
 
   columns = [
     {
       title: '名称',
+      width: 140,
       dataIndex: 'menuName',
       key: 'menuName',
     },
     {
       title: '编码',
+      width: 140,
       dataIndex: 'menuCode',
       key: 'menuCode',
     },
@@ -57,14 +67,36 @@ class MenuManagerPage extends React.Component {
     {
       title: '类型',
       dataIndex: 'menuType',
+      width: 80,
       key: 'menuType',
       render: (text, record, index) => {
         if (record.menuType === '0') {
-          return <Tag color="blue">一级菜单</Tag>;
+          return <Tag color="blue">一级</Tag>;
         } else if (record.menuType === '1') {
-          return <Tag color="magenta">二级菜单</Tag>;
+          return <Tag color="magenta">二级</Tag>;
         }
       }
+    },
+    {
+      title: '地址',
+      dataIndex: 'menuUrl',
+      width: 120,
+      key: 'menuUrl',
+    },
+    {
+      title: '图标',
+      dataIndex: 'menuIcon',
+      width: 60,
+      key: 'menuIcon',
+      render(text) {
+        return <IconFont style={{fontSize: '20px'}} type={text}/>
+      }
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      width: 60,
+      key: 'sort',
     },
     {
       title: '其他',
@@ -78,41 +110,16 @@ class MenuManagerPage extends React.Component {
     },
     {
       title: '创建时间',
+      width: 160,
       dataIndex: 'createTime',
       key: 'createTime',
     },
     {
       title: '操作',
-      width: 240,
+      width: 180,
       align: 'center',
       render: (text, obj, index) => {
         return <div>
-          <Button onClick={() => {
-            this.setState({
-              modalObj: {
-                show: true,
-                obj: {...obj},
-                isEdit: true,
-                pid: obj.pid,
-                menuType: obj.menuType,
-              }
-            }, () => {
-              if (this.state.formRef.current !== null) {
-                this.state.formRef.current.resetFields();
-              }
-            })
-          }} size={"small"} icon={<EditOutlined/>}>编辑</Button>
-          &nbsp;
-          <Popconfirm
-            title="您确定删除此资源嘛?"
-            onConfirm={() => {
-              this.delAuth(obj.id);
-            }}
-            okText="是"
-            cancelText="否"
-          >
-            <Button size={"small"} icon={<DeleteOutlined/>} danger>删除</Button>
-          </Popconfirm>
           {
             obj.menuType === '0' ?
               <>&nbsp;
@@ -133,6 +140,33 @@ class MenuManagerPage extends React.Component {
                 }} size={"small"} icon={<AppstoreAddOutlined/>} title={"按钮权限配置"}>配置</Button>
               </>
           }
+          &nbsp;
+          <Button onClick={() => {
+            this.setState({
+              modalObj: {
+                show: true,
+                obj: {...obj},
+                isEdit: true,
+                pid: obj.pid,
+                menuType: obj.menuType,
+              }
+            }, () => {
+              if (this.state.formRef.current !== null) {
+                this.state.formRef.current.resetFields();
+              }
+            })
+          }} size={"small"} icon={<EditOutlined/>}/>
+          &nbsp;
+          <Popconfirm
+            title="您确定删除此资源嘛?"
+            onConfirm={() => {
+              this.delAuth(obj.id);
+            }}
+            okText="是"
+            cancelText="否"
+          >
+            <Button size={"small"} icon={<DeleteOutlined/>} danger/>
+          </Popconfirm>
         </div>
       }
     },
@@ -446,6 +480,35 @@ class MenuManagerPage extends React.Component {
             label="菜单标识"
             name="menuCode"
             rules={[{required: true, message: '请输入菜单的唯一标识!'}]}
+          >
+            <Input placeholder={"请输入"}/>
+          </Form.Item>
+          {
+            this.state.modalObj.menuType === '0' ?
+              <Form.Item
+                label="菜单地址"
+                name="menuUrl"
+              >
+                <Input placeholder={"请输入"}/>
+              </Form.Item> :
+              <Form.Item
+                label="菜单地址"
+                name="menuUrl"
+                rules={[{required: true, message: '请输入菜单的地址!'}]}
+              >
+                <Input placeholder={"请输入"}/>
+              </Form.Item>
+          }
+          <Form.Item
+            label="菜单图标"
+            name="menuIcon"
+            rules={[{required: true, message: '请输入菜单的图标!'}]}
+          >
+            <Input placeholder={"请输入"}/>
+          </Form.Item>
+          <Form.Item
+            label="菜单序列号"
+            name="sort"
           >
             <Input placeholder={"请输入"}/>
           </Form.Item>
