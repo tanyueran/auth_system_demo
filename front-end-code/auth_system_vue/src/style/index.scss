@@ -1,0 +1,93 @@
+/*
+全局样式
+ */
+* {
+	box-sizing: border-box;
+	outline: none !important;
+
+	&:after, &:before {
+		box-sizing: border-box;
+		outline: none !important;
+	}
+}
+
+html {
+	font-size: 10px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+body {
+	font-size: 14px;
+	width: 100vw;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none !important;
+}
+
+img {
+	vertical-align: middle;
+	border-radius: 2px;
+}
+
+p, h1, h2, h3, h4 {
+	margin: 0;
+	padding: 0;
+}
+
+/*
+------提供的公用类
+*/
+.text-center {
+	text-align: center !important;
+}
+
+.text-left {
+	text-align: left !important;
+}
+
+.text-right {
+	text-align: right !important;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.left {
+	float: left !important;
+}
+
+.right {
+	float: right !important;
+}
+
+.clear:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.el-main {
+	overflow-x: hidden;
+}
+
+
+@import "./transition.scss";

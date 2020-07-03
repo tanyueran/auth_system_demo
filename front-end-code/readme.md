@@ -1,24 +1,12 @@
-# 前端项目说明
+# 前端工程目录
 
-## 项目界面
+## react 版
 
-![首页](./doc/imgs/home.png)
-
-![按钮配置界面](./doc/imgs/btn.png)
+> auth_system_react 具体的项目介绍见目录下的readme.md文件
 
 
 
-![菜单配置界面](./doc/imgs/menu.png)
+## vue版
 
-![登录](./doc/imgs/login.png)
-
-
-
-![注册](./doc/imgs/register.png)
-
-
-
-
-
-
+> auth_system_vue 具体的项目介绍见目录下的readme.md文件
 

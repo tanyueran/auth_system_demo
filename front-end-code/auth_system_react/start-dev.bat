@@ -1,1 +1,1 @@
-yarn run start mock
+yarn run start

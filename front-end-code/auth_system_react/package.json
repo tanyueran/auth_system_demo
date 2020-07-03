@@ -1,5 +1,5 @@
 {
-	"name": "test-demo-auth",
+	"name": "auth_system_react",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
@@ -42,6 +42,7 @@
 		]
 	},
 	"devDependencies": {
+		"mocker-api": "^2.1.0",
 		"mockjs": "^1.1.0",
 		"node-sass": "^4.14.1",
 		"sass-loader": "^8.0.2",
