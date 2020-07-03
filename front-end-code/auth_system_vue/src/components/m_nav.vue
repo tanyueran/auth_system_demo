@@ -11,31 +11,37 @@
 			:collapse="!isClose"
 			background-color="#304156"
 			text-color="#fff"
-			:collapse-transition="false"
+			:default-active="activeUrl"
 			:router="true">
-			<el-submenu index="">
+			<el-menu-item index="/home">
+				<i class="iconfont myiconshouye"></i>
+				<span slot="title">首页</span>
+			</el-menu-item>
+			<el-submenu index="/home/personCenter">
 				<template slot="title">
-					<i class="el-icon-location"></i>
-					<span>导航一</span>
+					<i class="iconfont myicongongzuotaishouye"></i>
+					<span>个人中心</span>
 				</template>
-				<el-menu-item-group>
-					<template slot="title">分组一</template>
-					<el-menu-item index="/home/page1">页面1</el-menu-item>
-					<el-menu-item index="/home/page2">页面2</el-menu-item>
-					<el-menu-item index="/home/page3">页面3</el-menu-item>
-				</el-menu-item-group>
+				<el-menu-item index="/home/personCenter/personInfo">
+					<i class="iconfont myiconzichanxinxibuquancelve"></i>
+					个人信息
+				</el-menu-item>
 			</el-submenu>
+			<template v-for="item in menuList">
+				<el-submenu :key="item.menuCode" :index="item.menuUrl">
+					<template slot="title">
+						<i class="iconfont" :class="item.menuIcon"></i>
+						<span>{{item.menuName}}</span>
+					</template>
+					<el-menu-item :key="item2.menuCode" v-for="item2 in item.children" :index="item2.menuUrl">
+						<i class="iconfont" :class="item2.menuIcon"></i>
+						{{item2.menuName}}
+					</el-menu-item>
+				</el-submenu>
+			</template>
 			<el-menu-item index="/home/page1">
 				<i class="el-icon-menu"></i>
 				<span slot="title">页面一</span>
-			</el-menu-item>
-			<el-menu-item index="/home/page2">
-				<i class="el-icon-document"></i>
-				<span slot="title">页面二</span>
-			</el-menu-item>
-			<el-menu-item index="/home/page3">
-				<i class="el-icon-setting"></i>
-				<span slot="title">页面三</span>
 			</el-menu-item>
 		</el-menu>
 	</el-aside>
@@ -49,35 +55,25 @@
     name: 'm_nav',
     data() {
       return {
-        navList: [
-          {},
-        ]
+        activeUrl: '',
       }
     },
     computed: {
       isClose() {
         return this.$store.state.navState;
+      },
+      menuList() {
+        return this.$store.state.userMenu;
       }
     },
     watch: {
-      $rotuer() {
-
+      $route: {
+        handler(val) {
+          this.activeUrl = val.path;
+        },
+        immediate: true,
       }
     },
-    methods: {
-      /*
-      * 跳转页面
-      * */
-      goto(name) {
-        if (name !== this.$route.name) {
-          this.$router.push({name}).then(() => {
-          }).catch((err) => {
-            console.log("--------路由跳转错误");
-            console.log(err);
-          });
-        }
-      }
-    }
   }
 </script>
 
@@ -113,5 +109,9 @@
 		&:hover {
 			overflow-y: auto;
 		}
+	}
+
+	.iconfont {
+		margin-right: 0.5em;
 	}
 </style>

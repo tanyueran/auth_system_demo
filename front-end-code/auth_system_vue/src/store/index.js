@@ -5,7 +5,7 @@
  **/
 import Vue from 'vue';
 import vuex from 'vuex';
-import {getUserInfo} from "../api/user";
+import {getUserInfo, getMenu} from "../api/user";
 
 import module1 from './module1/index.js'
 
@@ -25,6 +25,10 @@ const state = {
   userInfo: {},
   // 保存本次打开的历史记录
   navList: [],
+  // 用户的菜单
+  userMenu: [],
+  // 按钮的权限放置
+  userButton: {},
 };
 
 const getters = {
@@ -52,6 +56,10 @@ const mutations = {
       Vue.set(state, "token", window.sessionStorage.getItem("token"));
       // 历史记录
       Vue.set(state, "navList", JSON.parse(window.sessionStorage.getItem("navList") || "[]"));
+      // 菜单
+      Vue.set(state, "userMenu", JSON.parse(window.sessionStorage.getItem("userMenu") || "[]"));
+      // 菜单
+      Vue.set(state, "userButton", JSON.parse(window.sessionStorage.getItem("userButton") || "{}"))
 
     } else {
       Vue.set(state, 'isLogin', false);
@@ -83,17 +91,31 @@ const mutations = {
     window.sessionStorage.setItem("navList", JSON.stringify(val));
     Vue.set(state, "navList", val);
   },
+  // 设置菜单
+  set_menu(state, val) {
+    window.sessionStorage.setItem('userMenu', JSON.stringify(val));
+    Vue.set(state, "userMenu", val);
+  },
+  // 设置按钮的
+  set_button(state, val) {
+    window.sessionStorage.setItem('userButton', JSON.stringify(val));
+    Vue.set(state, "userButton", val);
+  },
   // 退出登录
   destroy() {
     window.sessionStorage.removeItem('userInfo');
     window.sessionStorage.removeItem('isLogin');
     window.sessionStorage.removeItem('token');
     window.sessionStorage.removeItem('navList');
+    window.sessionStorage.removeItem('userMenu');
+    window.sessionStorage.removeItem('userButton');
     Vue.set(state, 'userInfo', {});
     Vue.set(state, 'isLogin', false);
     Vue.set(state, 'token', "");
     Vue.set(state, 'cacheList', []);
     Vue.set(state, 'navList', []);
+    Vue.set(state, 'userMenu', []);
+    Vue.set(state, 'userButton', {});
   },
 };
 
@@ -108,6 +130,26 @@ const actions = {
     }
     getUserInfo().then(data => {
       commit("set_userInfo", data);
+      let list = [];
+      data.roles.forEach(item => {
+        list.push(item.id);
+      });
+      // 请求菜单
+      getMenu(list).then(result => {
+        commit("set_menu", result);
+        // 初始化按钮
+        let o = {};
+        result.forEach(item => {
+          if (Array.isArray(item.children)) {
+            item.children.forEach(item2 => {
+              o[item2.menuUrl] = true;
+            });
+          }
+        });
+        commit("set_button", o);
+      }).catch(err => {
+        console.log(err);
+      });
     }).catch(err => {
       console.log(err);
     })

@@ -41,9 +41,6 @@
     data() {
       return {}
     },
-    created() {
-      this.$store.dispatch("getUserInfo");
-    }
   }
 </script>
 

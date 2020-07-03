@@ -32,7 +32,7 @@ _AXIOS.interceptors.request.use((config) => {
 
   // 此处可以添加认证的token
   if (store.getters.get_isLogin) {
-    config.headers.Authorization = /*'Bearer ' + */store.getters.get_userInfo.token;
+    config.headers.Authorization = /*'Bearer ' + */store.state.token;
   }
 
   return config;

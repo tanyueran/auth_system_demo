@@ -31,7 +31,7 @@
       return {
         // 用户信息
         userInfo: {
-          username: 'admin',
+          username: 'manager',
           password: 'password',
         },
         loading: false,
@@ -68,7 +68,6 @@
         login(obj).then((data) => {
           this.$store.commit('set_isLogin', true);
           this.$store.commit('set_token', data);
-          // 请求用户信息
           this.$store.dispatch("getUserInfo");
           this.$router.replace("/");
         }).catch((err) => {

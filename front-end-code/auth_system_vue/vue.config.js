@@ -5,7 +5,7 @@
  */
 module.exports = {
   lintOnSave: false,
-  publicPath: './',
+  // publicPath: './',
 
   productionSourceMap: true,
 
@@ -22,8 +22,8 @@ module.exports = {
     disableHostCheck: true,
     port: '3002',
     proxy: {
-      '/api': { //替换代理地址名称
-        target: 'http://localhost:3000/auth_system_ssm',
+      '^/api': { //替换代理地址名称
+        target: 'http://localhost:3000/auth_system_ssm/',
         changeOrigin: true, //可否跨域
         pathRewrite: {
           '^/api': '', //重写接口

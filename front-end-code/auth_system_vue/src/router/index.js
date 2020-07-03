@@ -19,6 +19,7 @@ VueRouter.prototype.push = function push(location) {
 vue.use(VueRouter);
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     // 登录
     {
@@ -44,32 +45,73 @@ const router = new VueRouter({
           meta: {
             title: '首页',
             needLogin: true,
+            auth: false,// 不要权限
           }
         },
+        /**
+         * 个人中心
+         */
+        {
+          path: '/home/personCenter/personInfo',
+          name: 'personInfo',
+          component: () => import('../pages/home/person_center/person_info/index.vue'),
+          meta: {
+            title: '个人中心',
+            needLogin: true,
+            auth: false,
+          }
+        },
+
+        /**
+         * 系统管理页面
+         */
+        // 用户管理
+        {
+          path: '/home/system_manager/user_manager',
+          name: 'userManager',
+          component: () => import('../pages/home/system_manager/user_manager/index.vue'),
+          meta: {
+            title: '用户管理',
+            needLogin: true,
+          }
+        },
+        // 角色管理
+        {
+          path: '/home/system_manager/role_manager',
+          name: 'roleManager',
+          component: () => import('../pages/home/system_manager/role_manager/index.vue'),
+          meta: {
+            title: '角色管理',
+            needLogin: true,
+          }
+        },
+        // 菜单管理
+        {
+          path: '/home/system_manager/menu_manager',
+          name: 'menuManager',
+          component: () => import('../pages/home/system_manager/menu_manager/index.vue'),
+          meta: {
+            title: '菜单管理',
+            needLogin: true,
+          }
+        },
+        // 按钮管理
+        {
+          path: '/home/system_manager/btn_manager',
+          name: 'btnManager',
+          component: () => import('../pages/home/system_manager/btn_manager/index.vue'),
+          meta: {
+            title: '按钮管理',
+            needLogin: true,
+          }
+        },
+
         {
           path: '/home/page1',
           name: 'page1',
           component: () => import('../pages/home/page1/index.vue'),
           meta: {
             title: 'page1',
-            needLogin: true,
-          }
-        },
-        {
-          path: '/home/page2',
-          name: 'page2',
-          component: () => import('../pages/home/page2/index.vue'),
-          meta: {
-            title: 'page2',
-            needLogin: true,
-          }
-        },
-        {
-          path: '/home/page3',
-          name: 'page3',
-          component: () => import('../pages/home/page3/index.vue'),
-          meta: {
-            title: 'page3',
             needLogin: true,
           }
         },
@@ -80,6 +122,7 @@ const router = new VueRouter({
           meta: {
             needLogin: false,
             title: '404',
+            auth: false,
           }
         },
         // 401
@@ -89,12 +132,14 @@ const router = new VueRouter({
           meta: {
             needLogin: false,
             title: '401',
+            auth: false,
           }
         },
         // 监听404页面
         {
           path: '/home/*',
           redirect: '/home/404',
+          auth: false,
         },
       ]
     },
@@ -131,6 +176,14 @@ router.beforeEach((to, from, next) => {
   if (to.meta.needLogin && !store.getters.get_isLogin) {
     return next({name: 'login',});
   }
+
+  // 权限拦截
+  console.log(to.meta.needLogin, to.meta.auth !== false, store.state.userButton[to.path] === undefined);
+  console.log(to.path)
+  if ((to.meta.needLogin && to.meta.auth !== false) && store.state.userButton[to.path] === undefined) {
+    return next({path: '/home/401',});
+  }
+
 
   // 登录后不允许到登录页
   if (store.getters.get_isLogin && (to.name === 'login')) {
