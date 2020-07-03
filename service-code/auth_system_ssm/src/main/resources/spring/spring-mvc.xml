@@ -22,10 +22,10 @@
     <mvc:resources mapping="/html/*.html" location="/html/**"/>
 
     <!--扫面controller-->
-    <context:component-scan base-package="com.github.tanyueran.auth_system.web"/>
+    <context:component-scan base-package="com.github.tanyueran.auth_system_ssm.web"/>
 
     <!-- 引入 swagger ui-->
-    <bean class="com.github.tanyueran.auth_system.config.Swagger2Config"/>
+    <bean class="com.github.tanyueran.auth_system_ssm.config.Swagger2Config"/>
     <!-- swagger静态资源访问配置 -->
     <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>

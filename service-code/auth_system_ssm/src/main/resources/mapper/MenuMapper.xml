@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.tanyueran.auth_system.mapper.MenuMapper">
+<mapper namespace="com.github.tanyueran.auth_system_ssm.mapper.MenuMapper">
     <select id="getAllMenu" resultType="Menu">
       SELECT
             *

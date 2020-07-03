@@ -16,7 +16,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--1、扫描service层-->
-    <context:component-scan base-package="com.github.tanyueran.auth_system.service"/>
+    <context:component-scan base-package="com.github.tanyueran.auth_system_ssm.service"/>
 
     <!--2、引入配置文件-->
     <context:property-placeholder location="classpath:database.${spring.profiles.active}.properties"/>
@@ -48,7 +48,7 @@
     <!--7、配置mapper扫描器-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--扫描的包路径-->
-        <property name="basePackage" value="com.github.tanyueran.auth_system.mapper"/>
+        <property name="basePackage" value="com.github.tanyueran.auth_system_ssm.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
     </bean>
 

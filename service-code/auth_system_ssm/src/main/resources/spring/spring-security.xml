@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!--引入公钥私钥-->
-    <bean class="com.github.tanyueran.auth_system.beans.MyKeys"/>
+    <bean class="com.github.tanyueran.auth_system_ssm.beans.MyKeys"/>
 
     <!--资源放开的配置-->
     <!-- swagger -->
@@ -22,12 +22,12 @@
     <security:http security="none" pattern="/user/register"/>
 
     <!--自定义jwt认证过滤器-->
-    <bean id="myLoginFilter" class="com.github.tanyueran.auth_system.filter.MyLoginFilter">
+    <bean id="myLoginFilter" class="com.github.tanyueran.auth_system_ssm.filter.MyLoginFilter">
         <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
 
     <!--自定义jwt检测过滤器-->
-    <bean id="myVerifyFilter" class="com.github.tanyueran.auth_system.filter.MyVerifyFilter">
+    <bean id="myVerifyFilter" class="com.github.tanyueran.auth_system_ssm.filter.MyVerifyFilter">
         <constructor-arg name="authenticationManager" ref="authenticationManager"/>
     </bean>
 
@@ -58,7 +58,7 @@
     </security:http>
 
     <!--引入自定义的加密器-->
-    <bean id="myPasswordEncoder" class="com.github.tanyueran.auth_system.config.MyPasswordEncoder"/>
+    <bean id="myPasswordEncoder" class="com.github.tanyueran.auth_system_ssm.config.MyPasswordEncoder"/>
 
     <!-- 配置认证管理器 -->
     <security:authentication-manager alias="authenticationManager">

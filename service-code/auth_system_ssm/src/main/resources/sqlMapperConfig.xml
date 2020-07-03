@@ -10,8 +10,8 @@
 
     <!--添加别名-->
     <typeAliases>
-        <package name="com.github.tanyueran.auth_system.entity"/>
-        <package name="com.github.tanyueran.auth_system.pojo"/>
+        <package name="com.github.tanyueran.auth_system_ssm.entity"/>
+        <package name="com.github.tanyueran.auth_system_ssm.pojo"/>
     </typeAliases>
 
 
