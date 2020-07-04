@@ -52,6 +52,37 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
     </bean>
 
+    <!--配置redis-->
+    <!--redis的基本信息配置，属性使用默认的-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"/>
+
+    <!--连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.url}"/>
+        <property name="database" value="${redis.database}"/>
+        <!--<property name="password" value="${redis.password}"/>-->
+        <property name="port" value="${redis.port}"/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+        <property name="usePool" value="true"/>
+    </bean>
+
+    <!--spring的redis的工具类-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--key的序列化器-->
+        <property name="keySerializer">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonRedisSerializer">
+                <constructor-arg index="0" value="java.lang.Object"/>
+            </bean>
+        </property>
+        <!--value的序列化器-->
+        <property name="valueSerializer">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonRedisSerializer">
+                <constructor-arg index="0" value="java.lang.Object"/>
+            </bean>
+        </property>
+    </bean>
+
     <!--引入spring security的配置文件-->
     <import resource="classpath:spring/spring-security.xml"/>
 </beans>

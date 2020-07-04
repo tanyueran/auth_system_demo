@@ -1,4 +1,15 @@
 # 权限系统
 > ssm 开发
 
-## 依赖的框架介绍
+## 使用的技术
+```text
+spring
+spring mvc
+spring security
+mybatis
+
+mysql
+
+swagger-ui
+
+```

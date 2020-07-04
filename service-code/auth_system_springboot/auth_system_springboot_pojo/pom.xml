@@ -12,5 +12,8 @@
 
     <artifactId>auth_system_springboot_pojo</artifactId>
 
+    <dependencies>
+
+    </dependencies>
 
 </project>

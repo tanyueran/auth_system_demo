@@ -12,6 +12,7 @@ import com.github.tanyueran.auth_system_ssm.pojo.UserPojo;
 import com.github.tanyueran.auth_system_ssm.service.UserService;
 import com.github.tanyueran.auth_system_ssm.web.controller.CommonController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,10 +33,15 @@ public class UserServiceImp implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     // security认证
     @Override
     public UserDetails loadUserByUsername(String userCode) throws AuthenticationException {
         UserPojo user = getUserByUserCode(userCode);
+//        可以通过redis 来缓存用户信息
+//        redisTemplate.opsForValue().set(userCode, user);
         if (user == null) {
             throw new UsernameNotFoundException("账号或者密码错误");
         }
