@@ -3,7 +3,7 @@
 		<m-nav class="app-nav-box"></m-nav>
 		<el-container>
 			<m-header/>
-			<el-main>
+			<el-main class="el-main-content">
 				<transition name="fade-transform" mode="out-in">
 					<keep-alive :include="include">
 						<router-view/>
@@ -49,6 +49,16 @@
 		height: 100%;
 		position: relative;
 		overflow: hidden;
+	}
+
+	.el-main-content {
+		background: #F0F2F5;
+
+		> div {
+			background: #fff;
+			padding: 20px;
+			min-height: calc(100vh - 200px);
+		}
 	}
 
 </style>

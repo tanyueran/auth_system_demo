@@ -178,8 +178,6 @@ router.beforeEach((to, from, next) => {
   }
 
   // 权限拦截
-  console.log(to.meta.needLogin, to.meta.auth !== false, store.state.userButton[to.path] === undefined);
-  console.log(to.path)
   if ((to.meta.needLogin && to.meta.auth !== false) && store.state.userButton[to.path] === undefined) {
     return next({path: '/home/401',});
   }

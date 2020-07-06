@@ -1,6 +1,6 @@
 <template>
 	<el-aside class="nav-box" :width="isClose?'200px':'64px'">
-		<div class="logo-wrapper">
+		<div class="logo-wrapper" :style="{width:isClose?'200px':'64px'}">
 			<img src="../assets/images/logo.png" alt="logo"/>
 			<span :class="[!isClose?'hidden':'']">
 				XXX系统
@@ -11,7 +11,9 @@
 			:collapse="!isClose"
 			background-color="#304156"
 			text-color="#fff"
+			:unique-opened="false"
 			:default-active="activeUrl"
+			:collapse-transition="false"
 			:router="true">
 			<el-menu-item index="/home">
 				<i class="iconfont myiconshouye"></i>
@@ -83,6 +85,7 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
+		transition: width .3s;
 	}
 
 	.logo-wrapper {

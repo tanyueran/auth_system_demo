@@ -27,6 +27,9 @@ import {
   BreadcrumbItem,
   MenuItemGroup,
   Scrollbar,
+  Pagination,
+  Table,
+  TableColumn
 } from 'element-ui'
 
 Vue.use(Button);
@@ -50,6 +53,9 @@ Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
 Vue.use(Scrollbar);
 Vue.use(MenuItemGroup);
+Vue.use(Pagination);
+Vue.use(Table);
+Vue.use(TableColumn);
 
 // 设置全局默认
 Vue.prototype.$ELEMENT = {size: 'small'};
