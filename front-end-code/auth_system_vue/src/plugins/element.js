@@ -29,7 +29,13 @@ import {
   Scrollbar,
   Pagination,
   Table,
-  TableColumn
+  TableColumn,
+  Row,
+  Col,
+  Loading,
+  Dialog,
+  Radio,
+  RadioGroup,
 } from 'element-ui'
 
 Vue.use(Button);
@@ -56,6 +62,12 @@ Vue.use(MenuItemGroup);
 Vue.use(Pagination);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Loading);
+Vue.use(Dialog);
+Vue.use(Radio);
+Vue.use(RadioGroup);
 
 // 设置全局默认
 Vue.prototype.$ELEMENT = {size: 'small'};

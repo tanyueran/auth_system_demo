@@ -14,5 +14,6 @@
 	.title {
 		padding-left: 1em;
 		border-left: 3px solid rgb(24, 144, 255);
+		margin-bottom: 1em;
 	}
 </style>
