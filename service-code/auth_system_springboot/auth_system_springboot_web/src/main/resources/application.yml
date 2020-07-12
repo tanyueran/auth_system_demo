@@ -1,7 +1,29 @@
 server:
   port: 9999
 spring:
+  profiles:
+    include: mapper
   datasource:
     url: jdbc:mysql://localhost:3306/auth_system_demo
     username: root
     password: password
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #初始连接数
+      initial-size: 3
+      # 最大的连接数
+      max-active: 10
+      # 最长的等待时间
+      max-wait: 6000
+      # 开启druid的拦截器
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.css,/druid/*"
+      # 配置druid监控的servlet
+      stat-view-servlet:
+        urlPattern: /druid/*
+        allow: 127.0.0.1
+        login-username: admin
+        login-password: password
+        enabled: true
