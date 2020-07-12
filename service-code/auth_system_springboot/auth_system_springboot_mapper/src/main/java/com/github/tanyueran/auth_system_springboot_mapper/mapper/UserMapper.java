@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserMapper {
 
     List<User> getAllUser();
+
+    User getUserById(String id);
 }

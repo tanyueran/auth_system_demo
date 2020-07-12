@@ -1,3 +1,10 @@
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*Mapper.xml
   config-location: classpath:mybatis/mybatisConfig.xml
+logging:
+  level:
+    com:
+      github:
+        tanyueran:
+          auth_system_springboot_mapper:
+            mapper: debug

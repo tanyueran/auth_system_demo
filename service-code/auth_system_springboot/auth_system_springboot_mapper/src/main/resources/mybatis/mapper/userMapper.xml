@@ -6,4 +6,8 @@
     <select id="getAllUser" resultType="com.github.tanyueran.auth_system_springboot_pojo.bean.User">
     select * from `user_table`
   </select>
+
+    <select id="getUserById" resultType="com.github.tanyueran.auth_system_springboot_pojo.bean.User">
+        SELECT * FROM `user_table` where id = #{id}
+    </select>
 </mapper>
