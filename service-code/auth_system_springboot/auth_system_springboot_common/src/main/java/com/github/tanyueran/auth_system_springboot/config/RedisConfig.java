@@ -1,4 +1,4 @@
-package com.github.tanyueran.auth_system_springboot_common.config;
+package com.github.tanyueran.auth_system_springboot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

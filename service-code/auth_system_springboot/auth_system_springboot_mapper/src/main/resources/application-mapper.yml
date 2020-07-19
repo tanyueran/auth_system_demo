@@ -6,5 +6,5 @@ logging:
     com:
       github:
         tanyueran:
-          auth_system_springboot_mapper:
+          auth_system_springboot:
             mapper: debug

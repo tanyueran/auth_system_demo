@@ -18,13 +18,11 @@
             <groupId>com.github.tanyueran</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <artifactId>auth_system_springboot_mapper</artifactId>
             <groupId>com.github.tanyueran</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.tanyueran</groupId>
             <artifactId>auth_system_springboot_pojo</artifactId>

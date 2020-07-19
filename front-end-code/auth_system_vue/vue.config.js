@@ -5,7 +5,7 @@
  */
 module.exports = {
   lintOnSave: false,
-  // publicPath: './',
+  publicPath: './',
 
   productionSourceMap: true,
 

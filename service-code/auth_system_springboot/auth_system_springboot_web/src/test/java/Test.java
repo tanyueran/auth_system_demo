@@ -1,4 +1,4 @@
-import com.github.tanyueran.auth_system_springboot_web.Application;
+import com.github.tanyueran.auth_system_springboot.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

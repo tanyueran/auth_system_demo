@@ -1,8 +1,5 @@
-package com.github.tanyueran.auth_system_springboot_common.config;
+package com.github.tanyueran.auth_system_springboot.config;
 
-import com.alibaba.druid.support.http.StatViewServlet;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 

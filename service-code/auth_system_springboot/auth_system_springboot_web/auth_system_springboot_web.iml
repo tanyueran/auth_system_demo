@@ -42,6 +42,14 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.2.7.RELEASE" level="project" />
     <orderEntry type="module" module-name="auth_system_springboot_mapper" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-spring-boot-starter:2.1.5" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-core:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-base:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-weekend:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-spring:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-extra:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: tk.mybatis:mapper-spring-boot-autoconfigure:2.1.5" level="project" />
     <orderEntry type="library" name="Maven: com.github.tanyueran:auth_system_springboot_pojo:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="auth_system_springboot_common" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE" level="project" />

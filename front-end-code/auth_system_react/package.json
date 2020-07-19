@@ -21,7 +21,7 @@
 		"redux-thunk": "^2.3.0"
 	},
 	"scripts": {
-		"start": "set PORT=8888 && craco start",
+		"start": "set PORT=9999 && craco start",
 		"build": "craco build",
 		"test": "craco test",
 		"eject": "react-scripts eject"

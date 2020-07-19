@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.tanyueran.auth_system_springboot.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.github.tanyueran.auth_system_springboot.modal.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+    <result column="active" jdbcType="VARCHAR" property="active" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>
