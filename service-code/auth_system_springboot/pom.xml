@@ -26,6 +26,8 @@
         <druid-version>1.1.23</druid-version>
         <mysql-version>5.1.49</mysql-version>
         <tk-mybatis-version>2.1.5</tk-mybatis-version>
+        <java-jwt-verison>3.8.3</java-jwt-verison>
+        <fastjson-version>1.2.71</fastjson-version>
     </properties>
 
     <dependencyManagement>
@@ -51,6 +53,13 @@
                 <version>${tk-mybatis-version}</version>
             </dependency>
 
+            <!--json转换器-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson-version}</version>
+            </dependency>
+
             <!--druid-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -71,6 +80,13 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-version}</version>
+            </dependency>
+
+            <!--jwt-->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt-verison}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
