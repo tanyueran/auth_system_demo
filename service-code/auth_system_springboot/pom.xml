@@ -19,7 +19,7 @@
 
     <properties>
         <java-version>1.8</java-version>
-        <spring-boot-version>2.3.1.RELEASE</spring-boot-version>
+        <spring-boot-version>2.2.2.RELEASE</spring-boot-version>
         <!--本项目的版本-->
         <this-version>0.0.1-SNAPSHOT</this-version>
         <spring-mybatis-version>2.1.2</spring-mybatis-version>
@@ -28,6 +28,8 @@
         <tk-mybatis-version>2.1.5</tk-mybatis-version>
         <java-jwt-verison>3.8.3</java-jwt-verison>
         <fastjson-version>1.2.71</fastjson-version>
+        <springfox-swagger2-version>2.9.2</springfox-swagger2-version>
+        <springfox-swagger-ui-version>2.9.2</springfox-swagger-ui-version>
     </properties>
 
     <dependencyManagement>
@@ -72,6 +74,20 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-redis</artifactId>
                 <version>${spring-boot-version}</version>
+            </dependency>
+
+            <!-- swagger2-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2-version}</version>
+            </dependency>
+
+            <!-- swagger2-UI-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger-ui-version}</version>
             </dependency>
 
 

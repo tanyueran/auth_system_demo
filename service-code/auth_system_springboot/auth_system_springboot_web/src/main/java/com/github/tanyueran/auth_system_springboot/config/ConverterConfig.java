@@ -5,7 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 
-// 自定义的消息装换气
+
+// 自定义的消息转换器
 @Configuration
 public class ConverterConfig {
 

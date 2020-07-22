@@ -5,6 +5,7 @@ import com.github.tanyueran.auth_system_springboot.modal.User;
 import com.github.tanyueran.auth_system_springboot.service.UserService;
 import com.github.tanyueran.auth_system_springboot.utils.HttpResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Autowired
     private UserService userService;
+
+    private AuthenticationManager authenticationManager;
+
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+        super.setFilterProcessesUrl("/login");
+    }
+
 
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {

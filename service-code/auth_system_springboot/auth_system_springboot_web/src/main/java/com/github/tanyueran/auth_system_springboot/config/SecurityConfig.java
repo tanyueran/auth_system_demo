@@ -1,11 +1,16 @@
 package com.github.tanyueran.auth_system_springboot.config;
 
+import com.github.tanyueran.auth_system_springboot.handler.MyAccessDeniedHandler;
+import com.github.tanyueran.auth_system_springboot.handler.MyAuthenticationEntryPoint;
+import com.github.tanyueran.auth_system_springboot.security.filter.JWTAuthenticationFilter;
 import com.github.tanyueran.auth_system_springboot.security.filter.JWTAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -13,12 +18,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/api/login");
+        web.ignoring().antMatchers(
+                // swagger-ui的
+                "/v2/api-docs",//swagger api json
+                "/swagger-resources/configuration/ui",//用来获取支持的动作
+                "/swagger-resources",//用来获取api-docs的URI
+                "/swagger-resources/configuration/security",//安全选项
+                "/swagger-ui.html",
+                "/webjars/**",
+                "/common/key/**",
+                "/api/login"
+        );
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 添加权限
+        /*
+         * 注意：此处配置的匿名、允许所有的，自定义的filter都会执行
+         * */
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
@@ -30,7 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 禁用csrf
                 .csrf().disable()
+                // 添加自定义的异常处理器
+                .exceptionHandling().accessDeniedHandler(new MyAccessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                .and()
                 // 添加jwt校验
-                .addFilterBefore(new JWTAuthorizationFilter(this.authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

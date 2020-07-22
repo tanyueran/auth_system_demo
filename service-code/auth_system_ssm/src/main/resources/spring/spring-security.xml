@@ -20,6 +20,7 @@
     <security:http security="none" pattern="/webjars/**"/>
     <!--注册-->
     <security:http security="none" pattern="/user/register"/>
+    <security:http security="none" pattern="/common/key/**"/>
 
     <!--自定义jwt认证过滤器-->
     <bean id="myLoginFilter" class="com.github.tanyueran.auth_system_ssm.filter.MyLoginFilter">
