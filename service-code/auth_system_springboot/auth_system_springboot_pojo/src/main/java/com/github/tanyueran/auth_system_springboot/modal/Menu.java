@@ -3,10 +3,11 @@ package com.github.tanyueran.auth_system_springboot.modal;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "menu_table")
-public class Menu {
+public class Menu implements Serializable {
     /**
      * 主键
      */
@@ -74,6 +75,42 @@ public class Menu {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public Menu() {
+    }
+
+    public Menu(String id, String pid, String menuName, String menuCode, String menuType, String menuIcon, String menuUrl, Integer sort, String remark, String data, Date createTime, Date updateTime) {
+        this.id = id;
+        this.pid = pid;
+        this.menuName = menuName;
+        this.menuCode = menuCode;
+        this.menuType = menuType;
+        this.menuIcon = menuIcon;
+        this.menuUrl = menuUrl;
+        this.sort = sort;
+        this.remark = remark;
+        this.data = data;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id='" + id + '\'' +
+                ", pid='" + pid + '\'' +
+                ", menuName='" + menuName + '\'' +
+                ", menuCode='" + menuCode + '\'' +
+                ", menuType='" + menuType + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", sort=" + sort +
+                ", remark='" + remark + '\'' +
+                ", data='" + data + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     /**
      * 获取主键

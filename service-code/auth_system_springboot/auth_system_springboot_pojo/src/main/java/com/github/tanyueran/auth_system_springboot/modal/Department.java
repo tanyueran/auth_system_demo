@@ -3,10 +3,11 @@ package com.github.tanyueran.auth_system_springboot.modal;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "department_table")
-public class Department {
+public class Department implements Serializable {
     /**
      * 主键
      */
@@ -58,6 +59,36 @@ public class Department {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public Department() {
+    }
+
+    public Department(String id, String pid, String departmentName, String departmentCode, String linkMan, String linkTel, String remark, Date createTime, Date updateTime) {
+        this.id = id;
+        this.pid = pid;
+        this.departmentName = departmentName;
+        this.departmentCode = departmentCode;
+        this.linkMan = linkMan;
+        this.linkTel = linkTel;
+        this.remark = remark;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id='" + id + '\'' +
+                ", pid='" + pid + '\'' +
+                ", departmentName='" + departmentName + '\'' +
+                ", departmentCode='" + departmentCode + '\'' +
+                ", linkMan='" + linkMan + '\'' +
+                ", linkTel='" + linkTel + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     /**
      * 获取主键

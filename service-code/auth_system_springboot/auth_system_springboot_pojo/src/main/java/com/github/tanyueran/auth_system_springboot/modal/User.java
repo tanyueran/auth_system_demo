@@ -3,10 +3,11 @@ package com.github.tanyueran.auth_system_springboot.modal;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "user_table")
-public class User {
+public class User implements Serializable {
     /**
      * 主键
      */
@@ -64,6 +65,38 @@ public class User {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public User() {
+    }
+
+    public User(String id, String userName, String userCode, String active, String fileId, String password, Integer sex, String desc, Date createTime, Date updateTime) {
+        this.id = id;
+        this.userName = userName;
+        this.userCode = userCode;
+        this.active = active;
+        this.fileId = fileId;
+        this.password = password;
+        this.sex = sex;
+        this.desc = desc;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userCode='" + userCode + '\'' +
+                ", active='" + active + '\'' +
+                ", fileId='" + fileId + '\'' +
+                ", password='" + password + '\'' +
+                ", sex=" + sex +
+                ", desc='" + desc + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     /**
      * 获取主键

@@ -3,10 +3,11 @@ package com.github.tanyueran.auth_system_springboot.modal;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "role_table")
-public class Role {
+public class Role implements Serializable {
     @Id
     private String id;
 
@@ -38,6 +39,30 @@ public class Role {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public Role() {
+    }
+
+    public Role(String id, String roleName, String roleCode, String remark, Date createTime, Date updateTime) {
+        this.id = id;
+        this.roleName = roleName;
+        this.roleCode = roleCode;
+        this.remark = remark;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id='" + id + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", roleCode='" + roleCode + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     /**
      * @return id

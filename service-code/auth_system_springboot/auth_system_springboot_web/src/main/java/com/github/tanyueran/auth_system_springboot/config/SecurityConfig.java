@@ -2,15 +2,12 @@ package com.github.tanyueran.auth_system_springboot.config;
 
 import com.github.tanyueran.auth_system_springboot.handler.MyAccessDeniedHandler;
 import com.github.tanyueran.auth_system_springboot.handler.MyAuthenticationEntryPoint;
-import com.github.tanyueran.auth_system_springboot.security.filter.JWTAuthenticationFilter;
 import com.github.tanyueran.auth_system_springboot.security.filter.JWTAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -27,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/webjars/**",
                 "/common/key/**",
-                "/api/login"
+                "/login"
         );
     }
 

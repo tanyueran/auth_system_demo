@@ -3,10 +3,11 @@ package com.github.tanyueran.auth_system_springboot.modal;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "button_table")
-public class Button {
+public class Button implements Serializable {
     /**
      * 主键
      */
@@ -41,6 +42,30 @@ public class Button {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public Button() {
+    }
+
+    public Button(String id, String buttonName, String buttonCode, String remark, Date createTime, Date updateTime) {
+        this.id = id;
+        this.buttonName = buttonName;
+        this.buttonCode = buttonCode;
+        this.remark = remark;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Button{" +
+                "id='" + id + '\'' +
+                ", buttonName='" + buttonName + '\'' +
+                ", buttonCode='" + buttonCode + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     /**
      * 获取主键

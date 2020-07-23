@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.tanyueran.auth_system_springboot.mapper.MenuMapper">
-  <resultMap id="BaseResultMap" type="com.github.tanyueran.auth_system_springboot.modal.Menu">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="pid" jdbcType="VARCHAR" property="pid" />
-    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
-    <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
-    <result column="menu_type" jdbcType="VARCHAR" property="menuType" />
-    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
-    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="data" jdbcType="VARCHAR" property="data" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.github.tanyueran.auth_system_springboot.modal.Menu">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="pid" jdbcType="VARCHAR" property="pid"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="menu_code" jdbcType="VARCHAR" property="menuCode"/>
+        <result column="menu_type" jdbcType="VARCHAR" property="menuType"/>
+        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menu_url" jdbcType="VARCHAR" property="menuUrl"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="data" jdbcType="VARCHAR" property="data"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="getMenuByRoleIds" resultMap="BaseResultMap">
+        SELECT
+        m.id,
+        m.pid,
+        m.menu_name,
+        m.menu_code,
+        m.menu_type,
+        m.menu_icon,
+        m.sort,
+        m.remark,
+        m.DATA,
+        m.create_time,
+        m.update_time
+        FROM
+        `menu_table` m
+        LEFT JOIN `role_menu_table` rm ON m.id = rm.menu_id
+        WHERE
+        rm.role_id IN
+        <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

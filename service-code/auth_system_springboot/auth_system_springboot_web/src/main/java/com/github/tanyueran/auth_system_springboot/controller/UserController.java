@@ -13,12 +13,4 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-
-    @GetMapping("/all")
-    public List<User> getAllUser() {
-        return userService.getAllUser();
-    }
 }
