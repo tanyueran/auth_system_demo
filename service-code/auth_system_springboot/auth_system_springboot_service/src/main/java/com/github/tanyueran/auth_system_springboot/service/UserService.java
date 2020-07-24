@@ -1,6 +1,7 @@
 package com.github.tanyueran.auth_system_springboot.service;
 
 import com.github.tanyueran.auth_system_springboot.modal.User;
+import com.github.tanyueran.auth_system_springboot.vo.UserDetail;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface UserService {
      * @return
      */
     User getUserByUser(User user);
+
+
+    UserDetail getUserDetailByUser(User user) throws Exception;
 }
