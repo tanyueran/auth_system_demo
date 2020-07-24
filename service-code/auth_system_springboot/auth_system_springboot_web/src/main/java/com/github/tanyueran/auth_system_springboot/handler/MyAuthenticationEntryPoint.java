@@ -13,6 +13,7 @@ import java.io.IOException;
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        e.printStackTrace();
         // 可以针对不同的异常，返回响应的文字
         HttpResponseUtil.response(httpServletResponse, e.getMessage());
     }

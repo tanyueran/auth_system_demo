@@ -13,4 +13,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @RequestMapping("/all")
+    public String getAllUser() {
+        return "null`````";
+    }
 }

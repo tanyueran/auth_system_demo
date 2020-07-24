@@ -3,6 +3,8 @@ package com.github.tanyueran.auth_system_springboot.config;
 import com.github.tanyueran.auth_system_springboot.handler.MyAccessDeniedHandler;
 import com.github.tanyueran.auth_system_springboot.handler.MyAuthenticationEntryPoint;
 import com.github.tanyueran.auth_system_springboot.security.filter.JWTAuthorizationFilter;
+import com.github.tanyueran.auth_system_springboot.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,8 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private PublicKey publicKey;
+
+    @Autowired
+    private AuthService authService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -51,6 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new MyAuthenticationEntryPoint())
                 .and()
                 // 添加jwt校验
-                .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthorizationFilter(authService, publicKey), UsernamePasswordAuthenticationFilter.class);
     }
 }

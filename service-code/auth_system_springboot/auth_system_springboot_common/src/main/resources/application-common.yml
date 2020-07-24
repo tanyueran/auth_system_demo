@@ -1,0 +1,5 @@
+key:
+  public:
+    url: F:/GitHub-Project/auth_system_demo/service-code/auth_system_springboot/doc/key/public.key
+  private:
+    url: F:/GitHub-Project/auth_system_demo/service-code/auth_system_springboot/doc/key/private.key

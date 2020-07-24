@@ -2,7 +2,7 @@ server:
   port: 9999
 spring:
   profiles:
-    include: mapper,service
+    include: mapper,service,common
   datasource:
     url: jdbc:mysql://localhost:3306/auth_system_demo
     username: root
