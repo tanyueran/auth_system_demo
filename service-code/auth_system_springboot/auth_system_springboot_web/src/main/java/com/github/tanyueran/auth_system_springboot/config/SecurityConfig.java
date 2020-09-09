@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/webjars/**",
                 "/common/key/**",
+                "/druid/**",
                 "/login"
         );
     }
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 注意：此处配置的匿名、允许所有的，自定义的filter都会执行
          * */
         http.authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // 禁用表单认证和HTTPbasic

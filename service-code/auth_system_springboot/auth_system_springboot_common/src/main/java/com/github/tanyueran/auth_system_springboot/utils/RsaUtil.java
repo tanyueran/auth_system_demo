@@ -1,8 +1,17 @@
 package com.github.tanyueran.auth_system_springboot.utils;
 
+
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import org.apache.logging.log4j.util.Base64Util;
+import org.junit.Assert;
+
 import javax.crypto.Cipher;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +23,7 @@ import java.util.Base64;
  * 生产jwt需要的公钥私钥
  */
 public class RsaUtil {
-    private static final int DEFAULT_KEY_SIZE = 2048;
+    private static final int DEFAULT_KEY_SIZE = 512;
 
     /**
      * 从文件中读取公钥
@@ -120,14 +129,15 @@ public class RsaUtil {
 
 
     public static void main(String[] args) throws Exception {
-        String publicPath = "E:\\workspace\\idea\\key\\public.key";
-        String privatePath = "E:\\workspace\\idea\\key\\private.key";
-//        RsaUtil.generateKey(publicPath, privatePath, "password", 1024 * 4);
+        String publicPath = "F:\\GitHub-Project\\auth_system_demo\\service-code\\auth_system_springboot\\doc\\key\\public.key";
+        String privatePath = "F:\\GitHub-Project\\auth_system_demo\\service-code\\auth_system_springboot\\doc\\key\\private.key";
+//        RsaUtil.generateKey(publicPath, privatePath, "password", 512);
         PrivateKey privateKey = RsaUtil.getPrivateKey(privatePath);
         PublicKey publicKey = RsaUtil.getPublicKey(publicPath);
-        // 公钥加密
+//         公钥加密
         byte[] m = RsaUtil.publicEncrypt("password".getBytes(), publicKey);
         byte[] m2 = RsaUtil.privateDecrypt(m, privateKey);
         System.out.println(new String(m2));
+
     }
 }

@@ -17,6 +17,7 @@ public class ApiControllerAdvice implements ResponseBodyAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseResult exceptionHandler1(Exception e) {
+        e.printStackTrace();
         return ResponseResult.error(e.getMessage());
     }
 

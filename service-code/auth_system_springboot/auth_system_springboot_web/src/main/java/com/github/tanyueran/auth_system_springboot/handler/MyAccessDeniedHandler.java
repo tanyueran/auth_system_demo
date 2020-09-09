@@ -13,6 +13,7 @@ import java.io.IOException;
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+        System.out.println("无权访问异常：+++++++++++++++++++");
         e.printStackTrace();
         // 可以针对不同的异常，返回响应的文字
         HttpResponseUtil.response(httpServletResponse, e.getMessage());

@@ -28,3 +28,8 @@ spring:
         login-username: admin
         login-password: password
         enabled: true
+
+management:
+  server:
+    servlet:
+      context-path: /actuator
