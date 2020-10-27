@@ -10,9 +10,6 @@ import {ConfigProvider} from 'antd';
 import config from './config/antd.config.js'
 
 
-// 引入模拟数据模块
-// import './mock/index.js'
-
 // 禁止react development tools
 if (process.env.NODE_ENV !== 'development') {
   try {
