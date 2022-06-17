@@ -25,7 +25,7 @@
         <mysql-version>5.1.49</mysql-version>
         <tk-mybatis-version>2.1.5</tk-mybatis-version>
         <java-jwt-verison>3.8.3</java-jwt-verison>
-        <fastjson-version>1.2.71</fastjson-version>
+        <fastjson-version>1.2.83</fastjson-version>
         <springfox-swagger2-version>2.9.2</springfox-swagger2-version>
         <springfox-swagger-ui-version>2.9.2</springfox-swagger-ui-version>
     </properties>
