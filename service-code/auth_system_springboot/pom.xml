@@ -22,7 +22,7 @@
         <spring-boot-version>2.2.2.RELEASE</spring-boot-version>
         <spring-mybatis-version>2.1.2</spring-mybatis-version>
         <druid-version>1.1.23</druid-version>
-        <mysql-version>5.1.49</mysql-version>
+        <mysql-version>8.0.28</mysql-version>
         <tk-mybatis-version>2.1.5</tk-mybatis-version>
         <java-jwt-verison>3.8.3</java-jwt-verison>
         <fastjson-version>1.2.71</fastjson-version>
